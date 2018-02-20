@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
+import { Map } from 'immutable';
 import envConfig from 'env-config';
 
 import messages from './home.messages';
@@ -11,8 +12,10 @@ import { Container, Title, TitleLogo, EnvName } from './home.styles';
 export class Home extends PureComponent {
   static propTypes = {
     items: PropTypes.object,
+    messages: PropTypes.instanceOf(Map),
     language: PropTypes.string.isRequired,
     fetchMaintainers: PropTypes.func.isRequired,
+    setActiveAgentId: PropTypes.func.isRequired,
     setLanguage: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
@@ -23,6 +26,7 @@ export class Home extends PureComponent {
 
   componentWillMount() {
     this.props.fetchMaintainers(this.props.language);
+    this.props.setActiveAgentId('main');
   }
 
   componentWillReceiveProps(nextProps) {

@@ -8,15 +8,20 @@ import { MaintainersActions } from '../../modules/maintainers/maintainers.redux'
 import { selectMaintainersItems } from '../../modules/maintainers/maintainers.selectors';
 import { LocalesActions } from '../../modules/locales/locales.redux';
 import { selectLocalesLanguage } from '../../modules/locales/locales.selectors';
+import { RoomsActions } from '../../modules/rooms/rooms.redux';
+import { selectActiveRoom, selectMessages } from '../../modules/rooms/rooms.selectors';
 
 const mapStateToProps = createStructuredSelector({
   items: selectMaintainersItems,
   language: selectLocalesLanguage,
+  activeRoom: selectActiveRoom,
+  messages: selectMessages,
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
-  fetchMaintainers: MaintainersActions.fetch,
   setLanguage: LocalesActions.setLanguage,
+  fetchMaintainers: MaintainersActions.fetch,
+  setActiveAgentId: RoomsActions.setActiveRoomId,
 }, dispatch);
 
 export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(Home));
