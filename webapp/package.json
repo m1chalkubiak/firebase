@@ -78,6 +78,7 @@
     "lodash.defaultsdeep": "^4.6.0",
     "lodash.pullall": "^4.2.0",
     "lodash.uniq": "^4.5.0",
+    "material-ui": "next",
     "minimist": "1.2.0",
     "normalize.css": "^8.0.0",
     "prop-types": "^15.6.0",

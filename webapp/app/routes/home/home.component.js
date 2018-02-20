@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { FormattedMessage } from 'react-intl';
 import { Map } from 'immutable';
-import envConfig from 'env-config';
 
-import messages from './home.messages';
-import { MaintainerList } from './maintainerList/maintainerList.component';
-import { Container, Title, TitleLogo, EnvName } from './home.styles';
+import { Container } from './home.styles';
+import { MessageList } from '../../components/MessageList/MessageList.component';
+import { MessageBox } from '../../components/MessageBox/MessageBox.component';
 
 export class Home extends PureComponent {
   static propTypes = {
@@ -36,18 +34,12 @@ export class Home extends PureComponent {
   }
 
   render() {
+    const { messages } = this.props;
     return (
       <Container>
         <Helmet title="Homepage" />
-
-        <Title>
-          <TitleLogo name="logo" />
-          <FormattedMessage {...messages.welcome} />
-        </Title>
-
-        <EnvName>Environment: {envConfig.name}</EnvName>
-
-        <MaintainerList items={this.props.items} />
+        <MessageList messages={messages} />
+        <MessageBox />
       </Container>
     );
   }

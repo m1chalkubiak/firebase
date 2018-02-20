@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import { DEFAULT_LOCALE } from '../modules/locales/locales.redux';
 
+import { DEFAULT_LOCALE } from '../modules/locales/locales.redux';
 import App from './app.container';
 import Home from './home';
 import NotFound from './notFound';
