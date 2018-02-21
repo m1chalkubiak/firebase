@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-
 import { Wrapper, Loader } from './MessageList.styles';
+
 import { Message } from '../Message/Message.component';
 
 

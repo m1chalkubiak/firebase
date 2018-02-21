@@ -22,7 +22,6 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   setLanguage: LocalesActions.setLanguage,
   fetchMaintainers: MaintainersActions.fetch,
   setActiveAgentId: RoomsActions.setActiveRoomId,
-  createMessage: RoomsActions.createMessage,
 }, dispatch);
 
 export default hot(module)(connect(mapStateToProps, mapDispatchToProps)(Home));
