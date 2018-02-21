@@ -1,22 +1,52 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
+import moment from 'moment';
 import { ListItem, ListItemText } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
+
+import { Author, Data, MessageContent } from './Message.styles';
+import { UserAvatar } from '../UserAvatar/UserAvatar.component';
+
 
 export class Message extends PureComponent {
   static propTypes = {
-    message: PropTypes.string,
+    message: PropTypes.instanceOf(Map),
   };
 
-  render() {
-    const { message } = this.props;
+  get data() {
+    const data = moment(this.props.message.get('publicationTime'));
 
+    if (moment().isSame(data, 'd')) {
+      return moment(data, 'hmm').format('HH:mm');
+    }
+    return moment(data, 'hmm').format('HH:mm DD.MM.YYYY');
+  }
+
+  get primaryText() {
+    return (
+      <div>
+        <Author>{this.props.message.get('author')}</Author>
+        <Data>{this.data}</Data>
+      </div>
+    );
+  }
+
+  get secondaryText() {
+    return (
+      <MessageContent>
+        {this.props.message.get('content')}
+      </MessageContent>
+    );
+  }
+
+  render() {
     return (
       <ListItem>
-        <Avatar>{'AN'}</ Avatar>
-        {/*<span style={styles.date}>{new Date(message.date).toLocaleString().slice(10)}</span>*/}
-        {/*<span style={styles.author}>{message.author}</span>: {message.message}*/}
-        <ListItemText primary={'Anonim'} secondary={message} />
+        <UserAvatar />
+        <ListItemText
+          primary={this.primaryText}
+          secondary={this.secondaryText}
+        />
       </ListItem>
     );
   }

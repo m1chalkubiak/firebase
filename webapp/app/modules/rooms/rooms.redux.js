@@ -6,6 +6,7 @@ export const {
   Creators: RoomsActions,
 } = createActions({
   setActiveRoomId: ['id'],
+  createMessage: ['author', 'content'],
 }, { prefix: 'ROOMS_' });
 
 const RoomsRecord = new Record({
