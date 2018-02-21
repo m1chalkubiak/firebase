@@ -42,6 +42,7 @@ export class MessageBox extends PureComponent {
           onChange={this.onChange}
           onKeyUp={this.onKeyUp}
           multiline
+          autoFocus
         />
       </Wrapper>
     );

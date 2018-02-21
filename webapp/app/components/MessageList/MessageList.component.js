@@ -13,13 +13,13 @@ export class MessageList extends PureComponent {
 
   renderList = () => {
     if (this.props.messages.size) {
-      return this.props.messages.toArray().map((message) =>
+      const sortedMessages = this.props.messages.sort();
+
+      return sortedMessages.map((message) =>
         <Message message={message.get('value')} key={message.get('_id')} />
-      );
+      ).toArray();
     }
-    return (
-      <Loader mode="indeterminate" />
-    );
+    return <Loader mode="indeterminate" />;
   };
 
   render = () => (

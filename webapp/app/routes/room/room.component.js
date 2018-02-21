@@ -3,27 +3,19 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Map } from 'immutable';
 
-import { Container } from './home.styles';
+import { Container } from './room.styles';
 import { MessageList } from '../../components/MessageList/MessageList.component';
 import { MessageBox } from '../../components/MessageBox/MessageBox.component';
 
-export class Home extends PureComponent {
+export class Room extends PureComponent {
   static propTypes = {
     messages: PropTypes.instanceOf(Map),
-    language: PropTypes.string.isRequired,
     createMessage: PropTypes.func.isRequired,
-    setActiveAgentId: PropTypes.func.isRequired,
-    setLanguage: PropTypes.func.isRequired,
+    setActiveRoomId: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.shape({
-      push: PropTypes.func.isRequired,
-    }).isRequired,
   };
 
-  componentWillMount() {
-    this.props.setActiveAgentId('main');
-  }
+  componentWillMount = () => this.props.setActiveRoomId(this.props.match.params.id);
 
   render() {
     const { messages, createMessage } = this.props;
