@@ -12,6 +12,7 @@ export class Home extends PureComponent {
     items: PropTypes.object,
     messages: PropTypes.instanceOf(Map),
     language: PropTypes.string.isRequired,
+    createMessage: PropTypes.func.isRequired,
     fetchMaintainers: PropTypes.func.isRequired,
     setActiveAgentId: PropTypes.func.isRequired,
     setLanguage: PropTypes.func.isRequired,
@@ -34,12 +35,13 @@ export class Home extends PureComponent {
   }
 
   render() {
-    const { messages } = this.props;
+    const { messages, createMessage } = this.props;
+
     return (
       <Container>
         <Helmet title="Homepage" />
         <MessageList messages={messages} />
-        <MessageBox />
+        <MessageBox onCreateMessage={createMessage} />
       </Container>
     );
   }

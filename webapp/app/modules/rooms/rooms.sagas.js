@@ -1,5 +1,6 @@
 import { takeLatest, put, select, fork } from 'redux-saga/effects';
 import reportError from 'report-error';
+import { pipe, defaultTo, converge, merge, identity, applySpec, always } from 'ramda';
 
 import { roomsRef } from '../utils/refs';
 import { createSaga } from '../utils/entityRegistry';
@@ -12,45 +13,41 @@ const registrySaga = createSaga({
   baseDbRef: roomsRef,
   registrySelector: selectRooms,
 });
-//
-// function* fetch({ id }) {
-//   try {
-//     const { entities, result } = normalize(data, agentSchema);
-//
-//     yield put(CommonActions.updateEntities(entities));
-//     yield put(AgentActions.fetchSuccess(result));
-//   } catch (error) {
-//     /* istanbul ignore next */
-//     reportError(error);
-//   }
-// }
 
-// function* fetchActiveRoom(id) {
-//   try {
-//     const activeRoom = yield select(selectActiveRoomId);
-//     console.log(activeRoom)
-//     if (activeRoom.isEmpty()) {
-//       console.log(activeRoom);
-//       // yield put(RoomsActions.fetch(id));
-//       // while (true) {
-//       //   const { id: fetchedId } = yield take(RoomsTypes.FETCH_SUCCESS);
-//       //   if (fetchedId === id) {
-//           return yield select(selectActiveRoomId);
-//       //   }
-//       // }
-//     }
-//
-//     return activeRoom;
-//   } catch (error) {
-//     /* istanbul ignore next */
-//     return reportError(error);
-//   }
-// }
 
-export function* startListeningForState({ id }) {
+export function* getActiveRoomRef() {
   try {
-    // const activeAgent = yield fetchActiveRoom(parseInt(id, 10));
-    // console.log(activeAgent)
+    const roomName = yield select(selectActiveRoomId);
+    return roomsRef.child(roomName);
+  } catch (error) {
+    /* istanbul ignore next */
+    return reportError(error);
+  }
+}
+
+export function* createMessage({ author, content, date }) {
+  try {
+    const activeRoomRef = yield getActiveRoomRef();
+    const { key } = activeRoomRef.child('messages').push();
+
+    yield activeRoomRef.child('contentStructure').transaction(pipe(
+      defaultTo({}),
+      converge(merge, [identity, applySpec({
+        [key]: {
+          author: always(author),
+          content: always(content),
+          date: always(date),
+        },
+      })])
+    ));
+  } catch (error) {
+    /* istanbul ignore next */
+    reportError(error);
+  }
+}
+
+export function* startListeningForState() {
+  try {
     const roomName = yield select(selectActiveRoomId);
 
     yield put(RoomsActions.startListening(`${roomName}/messages`, 'messages'));
@@ -60,27 +57,11 @@ export function* startListeningForState({ id }) {
   }
 }
 
-// export function* fetch() {
-//   try {
-//     const ref = roomsRef.child('main');
-//     yield ref.once('value', function (snapshot) {
-//       const value = snapshot.val();
-//       const key = snapshot.key;
-//       console.log(value)
-//       return value;
-//     });
-//   } catch (error) {
-//     /* istanbul ignore next */
-//     return reportError(error);
-//   }
-// }
-
-
 export default function* watchRooms() {
   try {
     yield fork(registrySaga);
     yield takeLatest(RoomsTypes.SET_ACTIVE_ROOM_ID, startListeningForState);
-    // yield takeLatest(RoomsTypes.FETCH, fetch);
+    yield takeLatest(RoomsTypes.CREATE_MESSAGE, createMessage);
   } catch (error) {
     /* istanbul ignore next */
     reportError(error);
