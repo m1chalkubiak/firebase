@@ -39,10 +39,10 @@ export class App extends PureComponent {
       <Fragment>
         <Reboot />
         <Helmet
-          titleTemplate="%s - Apptension React Boilerplate"
-          defaultTitle="Apptension React Boilerplate"
+          titleTemplate="%s - Firebase Chat"
+          defaultTitle="Firebase Chat"
           meta={[
-            { name: 'description', content: 'Apptension\'s React Boilerplate application' },
+            { name: 'description', content: 'Simple web app chat using firebase features.' },
           ]}
         />
 

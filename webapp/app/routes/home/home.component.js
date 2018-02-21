@@ -29,7 +29,7 @@ export class Home extends PureComponent {
     const { messages, createMessage } = this.props;
     return (
       <Container>
-        <Helmet title="Homepage" />
+        <Helmet title="Main room" />
         <MessageList messages={messages} />
         <MessageBox onCreateMessage={createMessage} />
       </Container>
