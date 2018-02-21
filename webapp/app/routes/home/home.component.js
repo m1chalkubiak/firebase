@@ -9,11 +9,9 @@ import { MessageBox } from '../../components/MessageBox/MessageBox.component';
 
 export class Home extends PureComponent {
   static propTypes = {
-    items: PropTypes.object,
     messages: PropTypes.instanceOf(Map),
     language: PropTypes.string.isRequired,
     createMessage: PropTypes.func.isRequired,
-    fetchMaintainers: PropTypes.func.isRequired,
     setActiveAgentId: PropTypes.func.isRequired,
     setLanguage: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
@@ -24,14 +22,7 @@ export class Home extends PureComponent {
   };
 
   componentWillMount() {
-    this.props.fetchMaintainers(this.props.language);
     this.props.setActiveAgentId('main');
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.language !== this.props.language) {
-      this.props.fetchMaintainers(nextProps.language);
-    }
   }
 
   render() {
