@@ -1,19 +1,16 @@
-import {
-  createActions as rsCreateActions,
-  createReducer as rsCreateReducer,
-} from 'reduxsauce';
+import { createActions as rsCreateActions, createReducer as rsCreateReducer } from 'reduxsauce';
 import { eventChannel } from 'redux-saga';
 import { takeEvery, select, fork, take, put } from 'redux-saga/effects';
 import reportError from 'report-error';
 import { defaultTo, mapObjIndexed, complement, isNil } from 'ramda';
 import { Map, fromJS } from 'immutable';
 
+
 export const createActions = (actions, options) => rsCreateActions({
   ...actions,
   updateItems: ['data', 'collectionName'],
   startListening: ['childPath', 'collectionName'],
 }, options);
-
 
 export const createReducer = (initialState, actionHandlers, { types }) => {
   const updateItems = (state, { data, collectionName }) => state
