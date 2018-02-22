@@ -3,4 +3,4 @@ import envConfig from 'env-config';
 
 firebase.initializeApp(envConfig.firebaseConfig);
 
-export const roomsRef = firebase.database().ref('rooms');
+export const dbRef = firebase.database().ref('/');

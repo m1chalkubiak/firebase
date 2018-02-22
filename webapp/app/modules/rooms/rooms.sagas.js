@@ -3,7 +3,7 @@ import reportError from 'report-error';
 import firebase from 'firebase';
 import { pipe, defaultTo, converge, merge, identity, applySpec, always } from 'ramda';
 
-import { roomsRef } from '../utils/refs';
+import { dbRef } from '../utils/refs';
 import { createSaga } from '../utils/entityRegistry';
 import { RoomsTypes, RoomsActions } from './rooms.redux';
 import { selectActiveRoomId, selectRooms } from './rooms.selectors';
@@ -12,14 +12,14 @@ import { selectActiveRoomId, selectRooms } from './rooms.selectors';
 const registrySaga = createSaga({
   actions: RoomsActions,
   types: RoomsTypes,
-  baseDbRef: roomsRef,
+  baseDbRef: dbRef,
   registrySelector: selectRooms,
 });
 
 function* getActiveRoomRef() {
   try {
     const roomName = yield select(selectActiveRoomId);
-    return roomsRef.child(roomName);
+    return dbRef.child('messages').child(roomName);
   } catch (error) {
     /* istanbul ignore next */
     return reportError(error);
@@ -29,9 +29,9 @@ function* getActiveRoomRef() {
 export function* createMessage({ author, content }) {
   try {
     const activeRoomRef = yield getActiveRoomRef();
-    const { key } = activeRoomRef.child('messages').push();
+    const { key } = activeRoomRef.push();
 
-    yield activeRoomRef.child('messages').transaction(pipe(
+    yield activeRoomRef.transaction(pipe(
       defaultTo({}),
       converge(merge, [identity, applySpec({
         [key]: {
@@ -51,7 +51,8 @@ export function* startListeningForState() {
   try {
     const roomName = yield select(selectActiveRoomId);
 
-    yield put(RoomsActions.startListening(`${roomName}/messages`, 'messages'));
+    yield put(RoomsActions.startListening(`/messages/${roomName}`, 'messages'));
+    yield put(RoomsActions.startListening('/rooms', 'roomsList'));
   } catch (error) {
     /* istanbul ignore next */
     reportError(error);
@@ -68,4 +69,3 @@ export default function* watchRooms() {
     reportError(error);
   }
 }
-

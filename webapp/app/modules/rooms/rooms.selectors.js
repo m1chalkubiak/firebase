@@ -3,7 +3,12 @@ import { Map } from 'immutable';
 import { complement, isNil } from 'ramda';
 
 
-export const selectRooms = (state) => state.get('rooms');
+export const selectRooms = (state) => state.get('rooms', Map());
+
+export const selectRoomsList = createSelector(
+  selectRooms,
+  (state) => state.get('roomsList', Map()),
+);
 
 export const selectItems = createSelector(
   selectRooms,
@@ -12,7 +17,7 @@ export const selectItems = createSelector(
 
 export const selectActiveRoomId = createSelector(
   selectRooms,
-  (state) => state.get('activeRoomId'),
+  (state) => state.get('activeRoomId', ''),
 );
 
 export const selectActiveRoom = createSelector(

@@ -5,11 +5,12 @@ import { hot } from 'react-hot-loader';
 
 import { Room } from './room.component';
 import { RoomsActions } from '../../modules/rooms/rooms.redux';
-import { selectActiveRoom, selectMessages } from '../../modules/rooms/rooms.selectors';
+import { selectActiveRoom, selectMessages, selectRoomsList } from '../../modules/rooms/rooms.selectors';
 
 const mapStateToProps = createStructuredSelector({
   activeRoom: selectActiveRoom,
   messages: selectMessages,
+  rooms: selectRoomsList,
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({

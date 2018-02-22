@@ -19,6 +19,7 @@ export class MessageList extends PureComponent {
         <Message message={message.get('value')} key={message.get('_id')} />
       ).toArray();
     }
+
     return <Loader mode="indeterminate" />;
   };
 
