@@ -11,7 +11,6 @@ export const Wrapper = styled.div`
 
 export const Content = styled(Card)`
   overflow-y: scroll;
-  bottom: 0;
 `;
 
 export const Loader = styled(CircularProgress)`

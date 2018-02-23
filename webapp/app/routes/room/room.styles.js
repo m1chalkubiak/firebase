@@ -57,6 +57,7 @@ export const Wrapper = styled.div`
   z-index: 1;
   overflow: hidden;
 `;
+
 export const Container = styled.div`
   position: relative;
   display: flex;

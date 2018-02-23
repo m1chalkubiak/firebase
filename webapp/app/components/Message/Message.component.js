@@ -13,7 +13,7 @@ export class Message extends PureComponent {
     message: PropTypes.instanceOf(Map),
   };
 
-  get data() {
+  get time() {
     const data = moment(this.props.message.get('publicationTime'));
 
     if (moment().isSame(data, 'd')) {
@@ -22,11 +22,15 @@ export class Message extends PureComponent {
     return moment(data, 'hmm').format('HH:mm DD.MM.YYYY');
   }
 
+  get author() { return this.props.message.get('author'); }
+
+  get content() { return this.props.message.get('content'); }
+
   get primaryText() {
     return (
       <div>
-        <Author>{this.props.message.get('author')}</Author>
-        <Data>{this.data}</Data>
+        <Author>{this.author}</Author>
+        <Data>{this.time}</Data>
       </div>
     );
   }
@@ -34,20 +38,18 @@ export class Message extends PureComponent {
   get secondaryText() {
     return (
       <MessageContent>
-        {this.props.message.get('content')}
+        {this.content}
       </MessageContent>
     );
   }
 
-  render() {
-    return (
-      <ListItem>
-        <UserAvatar />
-        <ListItemText
-          primary={this.primaryText}
-          secondary={this.secondaryText}
-        />
-      </ListItem>
-    );
-  }
+  render = () => (
+    <ListItem>
+      <UserAvatar />
+      <ListItemText
+        primary={this.primaryText}
+        secondary={this.secondaryText}
+      />
+    </ListItem>
+  );
 }

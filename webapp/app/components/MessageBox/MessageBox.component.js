@@ -33,18 +33,16 @@ export class MessageBox extends PureComponent {
     }
   };
 
-  render() {
-    return (
-      <Wrapper>
-        <UserAvatar />
-        <Field
-          value={this.state.message}
-          onChange={this.onChange}
-          onKeyUp={this.onKeyUp}
-          multiline
-          autoFocus
-        />
-      </Wrapper>
-    );
-  }
+  render = () => (
+    <Wrapper>
+      <UserAvatar />
+      <Field
+        value={this.state.message}
+        onChange={this.onChange}
+        onKeyUp={this.onKeyUp}
+        multiline
+        autoFocus
+      />
+    </Wrapper>
+  );
 }
