@@ -26,6 +26,7 @@ export class RoomContainer extends PureComponent {
     createMessage: PropTypes.func.isRequired,
     setActiveRoomId: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
+    activeRoom: PropTypes.object,
   };
 
   state = {
@@ -33,6 +34,12 @@ export class RoomContainer extends PureComponent {
   };
 
   componentWillMount = () => this.props.setActiveRoomId(this.props.match.params.id);
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.id !== this.props.match.params.id) {
+      this.props.setActiveRoomId(nextProps.match.params.id);
+    }
+  }
 
   handleDrawerOpen = () => {
     this.setState({ open: true });
@@ -43,7 +50,7 @@ export class RoomContainer extends PureComponent {
   };
 
   render() {
-    const { classes, messages, createMessage, rooms } = this.props;
+    const { classes, messages, createMessage, rooms, activeRoom } = this.props;
     const appBarClasses = classNames(classes.appBar, {
       [classes.appBarShift]: this.state.open,
     });
@@ -57,7 +64,7 @@ export class RoomContainer extends PureComponent {
     return (
       <Wrapper>
         <Container>
-          <Helmet title="Main room" />
+          <Helmet title={activeRoom.get('name')} />
           <AppBar className={appBarClasses}>
             <Toolbar disableGutters={!this.state.open}>
               <IconButton
@@ -85,7 +92,7 @@ export class RoomContainer extends PureComponent {
                 </IconButton>
               </MenuDrawerHeader>
               <Divider />
-              <RoomList rooms={rooms} />
+              <RoomList rooms={rooms} activeRoom={activeRoom} />
             </MenuDrawerInner>
           </Drawer>
           <Content>

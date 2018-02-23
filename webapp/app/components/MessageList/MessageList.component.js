@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
+import { Typography } from 'material-ui';
 
 import { Wrapper, Content, Loader } from './MessageList.styles';
 import { Message } from '../Message/Message.component';
@@ -12,12 +13,17 @@ export class MessageList extends PureComponent {
   };
 
   renderList = () => {
-    if (this.props.messages.size) {
-      const sortedMessages = this.props.messages.sort();
+    if (this.props.messages) {
+      if (this.props.messages.size) {
+        const sortedMessages = this.props.messages.sort();
 
-      return sortedMessages.map((message) =>
-        <Message message={message.get('value')} key={message.get('_id')} />
-      ).toArray();
+        return sortedMessages.map((message) =>
+          <Message message={message.get('value')} key={message.get('_id')} />
+        ).toArray();
+      }
+      return (
+        <Typography>Brak wiadomości...</Typography>
+      );
     }
 
     return <Loader mode="indeterminate" />;

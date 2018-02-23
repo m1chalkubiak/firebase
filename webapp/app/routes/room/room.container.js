@@ -8,7 +8,9 @@ import { compose } from 'ramda';
 import { RoomContainer } from './room.component';
 import styles from './room.styles';
 import { RoomsActions } from '../../modules/rooms/rooms.redux';
-import { selectActiveRoom, selectMessages, selectRoomsList } from '../../modules/rooms/rooms.selectors';
+import {
+  selectActiveRoom, selectMessages, selectRoomsList,
+} from '../../modules/rooms/rooms.selectors';
 
 const mapStateToProps = createStructuredSelector({
   activeRoom: selectActiveRoom,

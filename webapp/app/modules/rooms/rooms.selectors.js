@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import { complement, isNil } from 'ramda';
 
 
@@ -21,8 +21,11 @@ export const selectActiveRoomId = createSelector(
 );
 
 export const selectActiveRoom = createSelector(
-  selectActiveRoomId, selectItems,
-  (activeRoomId, rooms) => rooms.get(`${activeRoomId}`, Map())
+  selectActiveRoomId, selectRoomsList,
+  (activeRoomId, rooms) => (fromJS({
+    id: activeRoomId,
+    name: rooms.getIn([activeRoomId, 'value', 'name']),
+  }))
 );
 
 export const selectMessages = createSelector(
