@@ -35,9 +35,9 @@ export class RoomContainer extends PureComponent {
 
   componentWillMount = () => this.props.setActiveRoomId(this.props.match.params.id);
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.match.params.id !== this.props.match.params.id) {
-      this.props.setActiveRoomId(nextProps.match.params.id);
+  componentWillReceiveProps({ match: { params: { id } } }) {
+    if (id !== this.props.match.params.id) {
+      this.props.setActiveRoomId(id);
     }
   }
 

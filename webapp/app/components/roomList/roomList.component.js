@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { ifElse, equals, always } from 'ramda';
+import { when, equals, always } from 'ramda';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import ChatIcon from 'material-ui-icons/Chat';
 
@@ -14,28 +14,26 @@ export class RoomList extends PureComponent {
     activeRoom: PropTypes.object.isRequired,
   };
 
+  static defaultProps = {
+    rooms: Map(),
+  };
+
   renderList = () => {
-    if (this.props.rooms.size) {
-      const sortedRooms = this.props.rooms.sort();
-      const isActive = (id) => ifElse(
-        equals(this.props.activeRoom.get('id')),
-        always({ active: 'active' }),
-        always(null)
-      )(id);
+    const isActive = (id) => when(
+      equals(this.props.activeRoom.get('id')),
+      always({ active: 'active' }),
+    )(id);
 
-      return sortedRooms.map((room) =>
-        <RoomLink to={room.get('_id')} key={room.get('_id')} {...isActive(room.get('_id'))}>
-          <ListItem button>
-            <ListItemIcon>
-              <ChatIcon />
-            </ListItemIcon>
-            <ListItemText primary={room.getIn(['value', 'name'])} />
-          </ListItem>
-        </RoomLink>
-      ).toArray();
-    }
-
-    return null;
+    return this.props.rooms.sort().map((room) =>
+      <RoomLink to={room.get('_id')} key={room.get('_id')} {...isActive(room.get('_id'))}>
+        <ListItem button>
+          <ListItemIcon>
+            <ChatIcon />
+          </ListItemIcon>
+          <ListItemText primary={room.getIn(['value', 'name'])} />
+        </ListItem>
+      </RoomLink>
+    ).toArray();
   };
 
   render = () => (

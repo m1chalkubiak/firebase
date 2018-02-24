@@ -30,5 +30,5 @@ export const selectActiveRoom = createSelector(
 
 export const selectMessages = createSelector(
   selectRooms,
-  (state) => state.get('messages').filter(complement(isNil)),
+  (state) => state.get('messages', Map()).filter(complement(isNil)),
 );
