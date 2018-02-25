@@ -3,30 +3,40 @@ import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { Typography } from 'material-ui';
 
-import { Wrapper, Content, Loader } from './MessageList.styles';
+import { Wrapper, Content, Loader, NoMessages, LoaderWrapper } from './MessageList.styles';
 import { Message } from '../Message/Message.component';
 
 
 export class MessageList extends PureComponent {
   static propTypes = {
+    loaded: PropTypes.bool.isRequired,
     messages: PropTypes.instanceOf(Map),
   };
 
+  renderMessages = () => this.props.messages.sort().map((message) =>
+    <Message message={message.get('value')} key={message.get('_id')} />
+  ).toArray();
+
+  renderNoMessages = () => (
+    <NoMessages>
+      <Typography>Brak wiadomości...</Typography>
+    </NoMessages>
+  );
+
+  renderLoader = () => (
+    <LoaderWrapper>
+      <Loader mode="indeterminate" />
+    </LoaderWrapper>
+  );
+
   renderList = () => {
-    if (this.props.messages) {
+    if (this.props.loaded) {
       if (this.props.messages.size) {
-        const sortedMessages = this.props.messages.sort();
-
-        return sortedMessages.map((message) =>
-          <Message message={message.get('value')} key={message.get('_id')} />
-        ).toArray();
+        return this.renderMessages();
       }
-      return (
-        <Typography>Brak wiadomości...</Typography>
-      );
+      return this.renderNoMessages();
     }
-
-    return <Loader mode="indeterminate" />;
+    return this.renderLoader();
   };
 
   render = () => (

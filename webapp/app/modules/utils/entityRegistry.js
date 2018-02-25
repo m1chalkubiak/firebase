@@ -2,7 +2,7 @@ import { createActions as rsCreateActions, createReducer as rsCreateReducer } fr
 import { eventChannel } from 'redux-saga';
 import { takeEvery, select, fork, take, put } from 'redux-saga/effects';
 import reportError from 'report-error';
-import { defaultTo, mapObjIndexed, complement, isNil } from 'ramda';
+import { defaultTo, mapObjIndexed, complement, isNil, pipe, cond, equals, always, T } from 'ramda';
 import { Map, fromJS } from 'immutable';
 
 
@@ -13,11 +13,16 @@ export const createActions = (actions, options) => rsCreateActions({
 }, options);
 
 export const createReducer = (initialState, actionHandlers, { types }) => {
-  const updateItems = (state, { data, collectionName }) => state
-    .updateIn([collectionName], Map(), (collection) => collection
+  const updateItems = (state, { data, collectionName }) => pipe(
+    (state) => state.updateIn([collectionName], Map(), (collection) => collection
       .merge(fromJS(data))
       .filter(complement(isNil))
-    );
+    ),
+    (state) => cond([
+      [equals('messages'), () => state.updateIn(['messagesLoaded'], always(true))],
+      [T, always(state)],
+    ])(collectionName),
+  )(state);
 
   return rsCreateReducer(initialState, {
     ...actionHandlers,

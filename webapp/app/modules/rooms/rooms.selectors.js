@@ -20,6 +20,11 @@ export const selectActiveRoomId = createSelector(
   (state) => state.get('activeRoomId', ''),
 );
 
+export const selectMessagesLoaded = createSelector(
+  selectRooms,
+  (state) => state.get('messagesLoaded', true),
+);
+
 export const selectActiveRoom = createSelector(
   selectActiveRoomId, selectRoomsList,
   (activeRoomId, rooms) => (fromJS({
@@ -30,5 +35,5 @@ export const selectActiveRoom = createSelector(
 
 export const selectMessages = createSelector(
   selectRooms,
-  (state) => state.get('messages', Map()).filter(complement(isNil)),
+  (state) => state.get('messages').filter(complement(isNil)),
 );

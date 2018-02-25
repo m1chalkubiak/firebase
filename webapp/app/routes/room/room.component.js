@@ -18,7 +18,7 @@ import { MessageBox } from '../../components/MessageBox/MessageBox.component';
 import { RoomList } from '../../components/';
 
 
-export class RoomContainer extends PureComponent {
+export class Room extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     messages: PropTypes.instanceOf(Map),
@@ -27,6 +27,7 @@ export class RoomContainer extends PureComponent {
     setActiveRoomId: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     activeRoom: PropTypes.object,
+    messagesLoaded: PropTypes.bool,
   };
 
   state = {
@@ -50,7 +51,7 @@ export class RoomContainer extends PureComponent {
   };
 
   render() {
-    const { classes, messages, createMessage, rooms, activeRoom } = this.props;
+    const { classes, messages, createMessage, rooms, activeRoom, messagesLoaded } = this.props;
     const appBarClasses = classNames(classes.appBar, {
       [classes.appBarShift]: this.state.open,
     });
@@ -96,7 +97,7 @@ export class RoomContainer extends PureComponent {
             </MenuDrawerInner>
           </Drawer>
           <Content>
-            <MessageList messages={messages} />
+            <MessageList loaded={messagesLoaded} messages={messages} />
             <MessageBox onCreateMessage={createMessage} />
           </Content>
         </Container>

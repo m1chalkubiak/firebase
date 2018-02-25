@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { when, equals, always } from 'ramda';
+import { ifElse, equals, always } from 'ramda';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import ChatIcon from 'material-ui-icons/Chat';
 
@@ -19,9 +19,10 @@ export class RoomList extends PureComponent {
   };
 
   renderList = () => {
-    const isActive = (id) => when(
+    const isActive = (id) => ifElse(
       equals(this.props.activeRoom.get('id')),
       always({ active: 'active' }),
+      always(null)
     )(id);
 
     return this.props.rooms.sort().map((room) =>

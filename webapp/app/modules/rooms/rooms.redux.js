@@ -16,6 +16,7 @@ const RoomsRecord = new Record({
   activeRoomId: null,
   messages: Map(),
   roomsList: Map(),
+  messagesLoaded: false,
 }, 'rooms');
 
 export const INITIAL_STATE = new RoomsRecord({});
@@ -23,7 +24,8 @@ export const INITIAL_STATE = new RoomsRecord({});
 const setActiveRoomId = (state, { id }) => state
   .set('activeRoomId', id)
   .set('messages', Map())
-  .set('roomsList', Map());
+  .set('roomsList', Map())
+  .set('messagesLoaded', false);
 
 export const reducer = createReducer(INITIAL_STATE, {
   [RoomsTypes.SET_ACTIVE_ROOM_ID]: setActiveRoomId,

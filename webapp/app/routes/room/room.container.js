@@ -5,17 +5,18 @@ import { hot } from 'react-hot-loader';
 import { withStyles } from 'material-ui/styles';
 import { compose } from 'ramda';
 
-import { RoomContainer } from './room.component';
+import { Room } from './room.component';
 import styles from './room.styles';
 import { RoomsActions } from '../../modules/rooms/rooms.redux';
 import {
-  selectActiveRoom, selectMessages, selectRoomsList,
+  selectActiveRoom, selectMessages, selectRoomsList, selectMessagesLoaded,
 } from '../../modules/rooms/rooms.selectors';
 
 const mapStateToProps = createStructuredSelector({
   activeRoom: selectActiveRoom,
   messages: selectMessages,
   rooms: selectRoomsList,
+  messagesLoaded: selectMessagesLoaded,
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -26,5 +27,5 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
 export default hot(module)(compose(
   withStyles(styles),
   connect(mapStateToProps, mapDispatchToProps)
-)(RoomContainer));
+)(Room));
 
