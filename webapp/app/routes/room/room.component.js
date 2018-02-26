@@ -13,9 +13,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 
 import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, Content } from './room.styles';
-import { MessageList } from '../../components/MessageList/MessageList.component';
-import { MessageBox } from '../../components/MessageBox/MessageBox.component';
-import { RoomList } from '../../components/';
+import { MessageList, MessageBox, RoomList } from '../../components/';
 
 
 export class Room extends PureComponent {

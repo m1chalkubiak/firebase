@@ -4,8 +4,8 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import { compose } from 'ramda';
 
 import { MESSAGE_FORM } from '../../modules/rooms/rooms.redux';
-import { Wrapper, Form, TextField } from './MessageBox.styles';
-import { UserAvatar } from '../UserAvatar/UserAvatar.component';
+import { Wrapper, Form, TextField } from './messageBox.styles';
+import { UserAvatar } from '../';
 
 
 export class MessageBoxForm extends PureComponent {

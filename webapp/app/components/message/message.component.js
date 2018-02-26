@@ -4,8 +4,8 @@ import { Map } from 'immutable';
 import moment from 'moment';
 import { ListItem, ListItemText } from 'material-ui/List';
 
-import { Author, Data, MessageContent } from './Message.styles';
-import { UserAvatar } from '../UserAvatar/UserAvatar.component';
+import { Author, Data, MessageContent } from './message.styles';
+import { UserAvatar } from '../';
 
 
 export class Message extends PureComponent {

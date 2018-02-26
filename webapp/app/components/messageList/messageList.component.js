@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { Typography } from 'material-ui';
 
-import { Wrapper, Content, Loader, NoMessages, LoaderWrapper } from './MessageList.styles';
-import { Message } from '../Message/Message.component';
+import { Wrapper, Content, Loader, NoMessages, LoaderWrapper } from './messageList.styles';
+import { Message } from '../';
 
 
 export class MessageList extends PureComponent {
