@@ -3,6 +3,7 @@ import { createActions, createReducer } from '../utils/entityRegistry';
 
 
 export const DEFAULT_ROOM = 'main';
+export const MESSAGE_FORM = 'messageForm';
 
 export const {
   Types: RoomsTypes,

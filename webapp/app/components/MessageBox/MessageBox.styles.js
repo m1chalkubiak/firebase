@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card, TextField } from 'material-ui';
+import { Card, TextField as Field } from 'material-ui';
 
 export const Wrapper = styled(Card)`
   width: 100%;
@@ -8,6 +8,10 @@ export const Wrapper = styled(Card)`
   justify-content: space-between;
 `;
 
-export const Field = styled(TextField)`
+export const Form = styled.form`
  width: calc(100% - 55px)
+`;
+
+export const TextField = styled(Field)`
+ width: 100%;
 `;

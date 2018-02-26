@@ -1,48 +1,50 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { reduxForm, Field } from 'redux-form/immutable';
+import { compose } from 'ramda';
 
-import { Wrapper, Field } from './MessageBox.styles';
+import { MESSAGE_FORM } from '../../modules/rooms/rooms.redux';
+import { Wrapper, Form, TextField } from './MessageBox.styles';
 import { UserAvatar } from '../UserAvatar/UserAvatar.component';
 
 
-export class MessageBox extends PureComponent {
+export class MessageBoxForm extends PureComponent {
   static propTypes = {
     message: PropTypes.string,
     onCreateMessage: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
   };
 
-  state = {
-    message: '',
-  };
+  handleSubmit = (values) => new Promise(() => {
+    this.props.onCreateMessage('Anonim', values.get('message'));
+    this.props.reset();
+  });
 
-  onChange = (event) => {
-    this.setState({
-      message: event.target.value,
-    });
-  };
-
-  onKeyUp = (event) => {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-
-      this.props.onCreateMessage('Anonim', this.state.message);
-
-      this.setState({
-        message: '',
-      });
-    }
-  };
+  renderTextField = ({ input, type }) => (
+    <TextField
+      type={type}
+      {...input}
+      autoFocus
+    />
+  );
 
   render = () => (
-    <Wrapper>
+    <Wrapper onClick={this.handleClick}>
       <UserAvatar />
-      <Field
-        value={this.state.message}
-        onChange={this.onChange}
-        onKeyUp={this.onKeyUp}
-        multiline
-        autoFocus
-      />
+      <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+        <Field
+          component={this.renderTextField}
+          name="message"
+          type="text"
+        />
+      </Form>
     </Wrapper>
   );
 }
+
+export const MessageBox = compose(
+  reduxForm({
+    form: MESSAGE_FORM,
+  })
+)(MessageBoxForm);
