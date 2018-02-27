@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import { createMuiTheme } from 'material-ui/styles';
-
-const theme = createMuiTheme();
-const drawerWidth = 240;
+import { theme, DRAWER_WIDTH } from '../../theme/global';
 
 
 export default theme => ({
@@ -15,8 +12,8 @@ export default theme => ({
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: DRAWER_WIDTH,
+    width: `calc(100% - ${DRAWER_WIDTH}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -32,7 +29,7 @@ export default theme => ({
   drawerPaper: {
     position: 'relative',
     height: '100%',
-    width: drawerWidth,
+    width: DRAWER_WIDTH,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -66,7 +63,7 @@ export const Container = styled.div`
 `;
 
 export const MenuDrawerInner = styled.div`
-  width: ${drawerWidth}px;
+  width: ${DRAWER_WIDTH}px;
 `;
 
 export const MenuDrawerHeader = styled.div`

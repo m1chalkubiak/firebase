@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { compose } from 'ramda';
+import { TextField } from 'material-ui';
 
 import { MESSAGE_FORM } from '../../modules/rooms/rooms.redux';
-import { Wrapper, Form, TextField } from './messageBox.styles';
+import { Wrapper, Form } from './messageBox.styles';
 import { UserAvatar } from '../';
 
 
@@ -26,6 +27,7 @@ export class MessageBoxForm extends PureComponent {
       type={type}
       {...input}
       autoFocus
+      fullWidth
     />
   );
 

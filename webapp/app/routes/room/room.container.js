@@ -9,7 +9,7 @@ import { Room } from './room.component';
 import styles from './room.styles';
 import { RoomsActions } from '../../modules/rooms/rooms.redux';
 import {
-  selectActiveRoom, selectMessages, selectRoomsList, selectMessagesLoaded,
+  selectActiveRoom, selectMessages, selectRoomsList, selectMessagesLoaded, selectCreateRoomDialogOpened,
 } from '../../modules/rooms/rooms.selectors';
 
 const mapStateToProps = createStructuredSelector({
@@ -17,11 +17,15 @@ const mapStateToProps = createStructuredSelector({
   messages: selectMessages,
   rooms: selectRoomsList,
   messagesLoaded: selectMessagesLoaded,
+  createRoomDialogOpened: selectCreateRoomDialogOpened,
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   setActiveRoomId: RoomsActions.setActiveRoomId,
   createMessage: RoomsActions.createMessage,
+  closeCreateRoomDialog: RoomsActions.closeCreateRoomDialog,
+  openCreateRoomDialog: RoomsActions.openCreateRoomDialog,
+  createRoom: RoomsActions.createRoom,
 }, dispatch);
 
 export default hot(module)(compose(

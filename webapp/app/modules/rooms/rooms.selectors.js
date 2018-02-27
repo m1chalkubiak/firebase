@@ -25,6 +25,11 @@ export const selectMessagesLoaded = createSelector(
   (state) => state.get('messagesLoaded', true),
 );
 
+export const selectCreateRoomDialogOpened = createSelector(
+  selectRooms,
+  (state) => state.get('createRoomDialogOpened', true),
+);
+
 export const selectActiveRoom = createSelector(
   selectActiveRoomId, selectRoomsList,
   (activeRoomId, rooms) => (fromJS({

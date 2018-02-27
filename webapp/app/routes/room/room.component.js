@@ -11,9 +11,10 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
+import WhatshotIcon from 'material-ui-icons/Whatshot';
 
 import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, Content } from './room.styles';
-import { MessageList, MessageBox, RoomList } from '../../components/';
+import { MessageList, MessageBox, RoomList, CreateRoomDialog } from '../../components/';
 
 
 export class Room extends PureComponent {
@@ -25,7 +26,11 @@ export class Room extends PureComponent {
     setActiveRoomId: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     activeRoom: PropTypes.object,
-    messagesLoaded: PropTypes.bool,
+    messagesLoaded: PropTypes.bool.isRequired,
+    createRoomDialogOpened: PropTypes.bool.isRequired,
+    closeCreateRoomDialog: PropTypes.func.isRequired,
+    openCreateRoomDialog: PropTypes.func.isRequired,
+    createRoom: PropTypes.func.isRequired,
   };
 
   state = {
@@ -49,7 +54,10 @@ export class Room extends PureComponent {
   };
 
   render() {
-    const { classes, messages, createMessage, rooms, activeRoom, messagesLoaded } = this.props;
+    const {
+      classes, messages, createMessage, rooms, activeRoom, messagesLoaded, createRoomDialogOpened,
+      closeCreateRoomDialog, openCreateRoomDialog, createRoom,
+    } = this.props;
     const appBarClasses = classNames(classes.appBar, {
       [classes.appBarShift]: this.state.open,
     });
@@ -75,6 +83,7 @@ export class Room extends PureComponent {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap>
+                <WhatshotIcon />
                 Firebase Chat
               </Typography>
             </Toolbar>
@@ -91,7 +100,7 @@ export class Room extends PureComponent {
                 </IconButton>
               </MenuDrawerHeader>
               <Divider />
-              <RoomList rooms={rooms} activeRoom={activeRoom} />
+              <RoomList rooms={rooms} activeRoom={activeRoom} onOpenCreateRoomDialog={openCreateRoomDialog} />
             </MenuDrawerInner>
           </Drawer>
           <Content>
@@ -99,6 +108,11 @@ export class Room extends PureComponent {
             <MessageBox onCreateMessage={createMessage} />
           </Content>
         </Container>
+        <CreateRoomDialog
+          opened={createRoomDialogOpened}
+          onCloseAction={closeCreateRoomDialog}
+          onCreateRoom={createRoom}
+        />
       </Wrapper>
     );
   }
