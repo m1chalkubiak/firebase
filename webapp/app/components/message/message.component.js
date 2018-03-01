@@ -26,29 +26,25 @@ export class Message extends PureComponent {
 
   get content() { return this.props.message.get('content'); }
 
-  get primaryText() {
-    return (
-      <div>
-        <Author>{this.author}</Author>
-        <Data>{this.time}</Data>
-      </div>
-    );
-  }
+  renderPrimaryText = () => (
+    <div>
+      <Author>{this.author}</Author>
+      <Data>{this.time}</Data>
+    </div>
+  );
 
-  get secondaryText() {
-    return (
-      <MessageContent>
-        {this.content}
-      </MessageContent>
-    );
-  }
+  renderSecondaryText = () => (
+    <MessageContent>
+      {this.content}
+    </MessageContent>
+  );
 
   render = () => (
     <ListItem>
       <UserAvatar />
       <ListItemText
-        primary={this.primaryText}
-        secondary={this.secondaryText}
+        primary={this.renderPrimaryText()}
+        secondary={this.renderSecondaryText()}
       />
     </ListItem>
   );

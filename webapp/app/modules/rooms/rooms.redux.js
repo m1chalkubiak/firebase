@@ -27,12 +27,13 @@ const RoomsRecord = new Record({
 
 export const INITIAL_STATE = new RoomsRecord({});
 
-const setActiveRoomId = (state, { id }) => state
-  .set('activeRoomId', id)
-  .set('messages', Map())
-  .set('roomsList', Map())
-  .set('messagesLoaded', false)
-  .set('createRoomDialogOpened', false);
+const setActiveRoomId = (state, { id }) => state.merge({
+  activeRoomId: id,
+  messages: Map(),
+  roomsList: Map(),
+  messagesLoaded: false,
+  createRoomDialogOpened: false,
+});
 
 const openCreateRoomDialog = (state) => state.set('createRoomDialogOpened', true);
 

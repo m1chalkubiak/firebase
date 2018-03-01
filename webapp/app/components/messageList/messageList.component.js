@@ -34,13 +34,15 @@ export class MessageList extends PureComponent {
   );
 
   renderList = () => {
-    if (this.props.loaded) {
-      if (this.props.messages.size) {
-        return this.renderMessages();
-      }
+    if (!this.props.loaded) {
+      return this.renderLoader();
+    }
+
+    if (!this.props.messages.size) {
       return this.renderNoMessages();
     }
-    return this.renderLoader();
+
+    return this.renderMessages();
   };
 
   render = () => (
