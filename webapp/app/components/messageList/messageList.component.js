@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import { Typography } from 'material-ui';
+import { FormattedMessage } from 'react-intl';
 
 import { Wrapper, Content, Loader, NoMessages, LoaderWrapper } from './messageList.styles';
 import { Message } from '../';
+import messages from './messageList.messages';
 
 
 export class MessageList extends PureComponent {
@@ -19,7 +21,9 @@ export class MessageList extends PureComponent {
 
   renderNoMessages = () => (
     <NoMessages>
-      <Typography>Brak wiadomości...</Typography>
+      <Typography>
+        <FormattedMessage {...messages.noMessages} />
+      </Typography>
     </NoMessages>
   );
 

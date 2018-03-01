@@ -10,11 +10,6 @@ export const selectRoomsList = createSelector(
   (state) => state.get('roomsList', Map()),
 );
 
-export const selectItems = createSelector(
-  selectRooms,
-  (state) => state.get('items', Map()),
-);
-
 export const selectActiveRoomId = createSelector(
   selectRooms,
   (state) => state.get('activeRoomId', ''),
@@ -32,10 +27,10 @@ export const selectCreateRoomDialogOpened = createSelector(
 
 export const selectActiveRoom = createSelector(
   selectActiveRoomId, selectRoomsList,
-  (activeRoomId, rooms) => (fromJS({
+  (activeRoomId, rooms) => fromJS({
     id: activeRoomId,
     name: rooms.getIn([activeRoomId, 'value', 'name']),
-  }))
+  })
 );
 
 export const selectMessages = createSelector(

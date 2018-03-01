@@ -14,7 +14,7 @@ import {
 
 const mapStateToProps = createStructuredSelector({
   activeRoom: selectActiveRoom,
-  messages: selectMessages,
+  roomMessages: selectMessages,
   rooms: selectRoomsList,
   messagesLoaded: selectMessagesLoaded,
   createRoomDialogOpened: selectCreateRoomDialogOpened,

@@ -5,13 +5,16 @@ import { compose } from 'ramda';
 import { Button, TextField } from 'material-ui';
 import Dialog, { DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { CREATE_ROOM_FORM } from '../../modules/rooms/rooms.redux';
 import { DialogActionsContainer } from './createRoomDialog.styles';
+import messages from './createRoomDialog.messages';
 
 
 export class CreateRoomDialogForm extends PureComponent {
   static propTypes = {
+    intl: PropTypes.object.isRequired,
     opened: PropTypes.bool.isRequired,
     onCloseAction: PropTypes.func.isRequired,
     onCreateRoom: PropTypes.func.isRequired,
@@ -43,26 +46,26 @@ export class CreateRoomDialogForm extends PureComponent {
       onClose={this.props.onCloseAction}
     >
       <DialogTitle>
-        {"Want to create a new room?"}
+        <FormattedMessage {...messages.dialogTitle} />
       </DialogTitle>
       <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <DialogContent>
           <DialogContentText>
-            Let's give the name of the room You would like to create.
+            <FormattedMessage {...messages.dialogContentText} />
           </DialogContentText>
           <Field
             component={this.renderTextField}
-            label="Room name"
+            label={this.props.intl.formatMessage(messages.fieldLabel)}
             name="name"
             type="text"
           />
         </DialogContent>
         <DialogActionsContainer>
           <Button onClick={this.props.onCloseAction} color="primary">
-            Cancel
+            <FormattedMessage {...messages.cancelButton} />
           </Button>
           <Button type="submit" variant="raised" color="primary">
-            Create room
+            <FormattedMessage {...messages.createRoomButton} />
           </Button>
         </DialogActionsContainer>
       </form>
@@ -71,6 +74,7 @@ export class CreateRoomDialogForm extends PureComponent {
 }
 
 export const CreateRoomDialog = compose(
+  injectIntl,
   reduxForm({
     form: CREATE_ROOM_FORM,
   })

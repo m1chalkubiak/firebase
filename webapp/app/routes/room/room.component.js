@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Map } from 'immutable';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
@@ -11,16 +12,17 @@ import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import WhatshotIcon from 'material-ui-icons/Whatshot';
+import WhatsHotIcon from 'material-ui-icons/Whatshot';
 
 import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, Content } from './room.styles';
 import { MessageList, MessageBox, RoomList, CreateRoomDialog } from '../../components/';
+import messages from './room.messages';
 
 
 export class Room extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    messages: PropTypes.instanceOf(Map),
+    roomMessages: PropTypes.instanceOf(Map),
     rooms: PropTypes.instanceOf(Map),
     createMessage: PropTypes.func.isRequired,
     setActiveRoomId: PropTypes.func.isRequired,
@@ -55,7 +57,7 @@ export class Room extends PureComponent {
 
   render() {
     const {
-      classes, messages, createMessage, rooms, activeRoom, messagesLoaded, createRoomDialogOpened,
+      classes, roomMessages, createMessage, rooms, activeRoom, messagesLoaded, createRoomDialogOpened,
       closeCreateRoomDialog, openCreateRoomDialog, createRoom,
     } = this.props;
     const appBarClasses = classNames(classes.appBar, {
@@ -83,8 +85,8 @@ export class Room extends PureComponent {
                 <MenuIcon />
               </IconButton>
               <Typography variant="title" color="inherit" noWrap>
-                <WhatshotIcon />
-                Firebase Chat
+                <WhatsHotIcon />
+                <FormattedMessage {...messages.appName} />
               </Typography>
             </Toolbar>
           </AppBar>
@@ -104,7 +106,7 @@ export class Room extends PureComponent {
             </MenuDrawerInner>
           </Drawer>
           <Content>
-            <MessageList loaded={messagesLoaded} messages={messages} />
+            <MessageList loaded={messagesLoaded} messages={roomMessages} />
             <MessageBox onCreateMessage={createMessage} />
           </Content>
         </Container>
