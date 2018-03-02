@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import { DEFAULT_LOCALE } from '../modules/locales/locales.redux';
 
+import { DEFAULT_ROOM } from '../modules/rooms/rooms.redux';
 import App from './app.container';
-import Home from './home';
+import Room from './room';
 import NotFound from './notFound';
 
 export class RootContainer extends Component {
   render() {
     return (
       <Switch>
-        <Route exact path="/" render={() => <Redirect to={DEFAULT_LOCALE} />} />
-
-
+        <Route exact path="/" render={() => <Redirect to={`/room/${DEFAULT_ROOM}`} />} />
+        <Route exact path="/room/" render={() => <Redirect to={`/room/${DEFAULT_ROOM}`} />} />
         <Route exact path="/404" component={NotFound} />
-
-        <Route path="/:lang">
+        <Route path="/room/:id">
           <App>
             <Switch>
-              <Route exact path="/:lang" component={Home} />
-
-
+              <Route exact path="/room/:id" component={Room} />
               <Route component={NotFound} />
             </Switch>
           </App>

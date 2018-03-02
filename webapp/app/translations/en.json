@@ -1,5 +1,11 @@
 {
-  "home.maintainerList.title": "Maintainers",
-  "home.welcome": "Welcome to Apptension React Boilerplate!",
-  "contact.title": "Contact page"
+  "createRoomDialog.cancelButton": "Cancel",
+  "createRoomDialog.createRoomButton": "Create room",
+  "createRoomDialog.dialogContentText": "Let's give the name of the room You would like to create.",
+  "createRoomDialog.dialogTitle": "Want to create a new room?",
+  "createRoomDialog.fieldLabel": "Room name",
+  "messageList.noMessages": "There are no messages to show. Please feel free to be the first lucky one!",
+  "room.appName": "Firebase Chat",
+  "roomsList.createRoomActionAriaLabel": "Create room",
+  "roomsList.roomsListItem": "Rooms"
 }

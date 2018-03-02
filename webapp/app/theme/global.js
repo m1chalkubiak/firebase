@@ -1,3 +1,4 @@
+import { createMuiTheme } from 'material-ui/styles';
 import { injectGlobal } from 'styled-components';
 
 // eslint-disable-next-line
@@ -12,3 +13,6 @@ injectGlobal`
     }
   }
 `;
+
+export const theme = createMuiTheme();
+export const DRAWER_WIDTH = 240;

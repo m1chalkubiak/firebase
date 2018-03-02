@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { IntlProvider } from 'react-intl';
+import Reboot from 'material-ui/Reboot';
 
 import { appLocales, translationMessages } from '../i18n';
 import { DEFAULT_LOCALE } from '../modules/locales/locales.redux';
@@ -36,11 +37,12 @@ export class App extends PureComponent {
 
     return (
       <Fragment>
+        <Reboot />
         <Helmet
-          titleTemplate="%s - Apptension React Boilerplate"
-          defaultTitle="Apptension React Boilerplate"
+          titleTemplate="%s - Firebase Chat"
+          defaultTitle="Firebase Chat"
           meta={[
-            { name: 'description', content: 'Apptension\'s React Boilerplate application' },
+            { name: 'description', content: 'Simple web app chat using firebase features.' },
           ]}
         />
 
