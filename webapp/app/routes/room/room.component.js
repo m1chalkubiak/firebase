@@ -15,7 +15,7 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import WhatsHotIcon from 'material-ui-icons/Whatshot';
 
 import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, Content } from './room.styles';
-import { MessageList, MessageBox, RoomList, CreateRoomDialog } from '../../components/';
+import { MessageList, MessageBox, RoomList, CreateRoomDialog, UserMenu } from '../../components/';
 import messages from './room.messages';
 
 
@@ -33,6 +33,7 @@ export class Room extends PureComponent {
     closeCreateRoomDialog: PropTypes.func.isRequired,
     openCreateRoomDialog: PropTypes.func.isRequired,
     createRoom: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired,
   };
 
   state = {
@@ -58,7 +59,7 @@ export class Room extends PureComponent {
   render() {
     const {
       classes, roomMessages, createMessage, rooms, activeRoom, messagesLoaded, createRoomDialogOpened,
-      closeCreateRoomDialog, openCreateRoomDialog, createRoom,
+      closeCreateRoomDialog, openCreateRoomDialog, createRoom, signOut,
     } = this.props;
     const appBarClasses = classNames(classes.appBar, {
       [classes.appBarShift]: this.state.open,
@@ -88,6 +89,8 @@ export class Room extends PureComponent {
                 <WhatsHotIcon />
                 <FormattedMessage {...messages.appName} />
               </Typography>
+
+              <UserMenu onSignOut={signOut} />
             </Toolbar>
           </AppBar>
           <Drawer

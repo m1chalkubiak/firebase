@@ -11,6 +11,7 @@ import { RoomsActions } from '../../modules/rooms/rooms.redux';
 import {
   selectActiveRoom, selectMessages, selectRoomsList, selectMessagesLoaded, selectCreateRoomDialogOpened,
 } from '../../modules/rooms/rooms.selectors';
+import { UserAuthActions } from '../../modules/userAuth/userAuth.redux';
 
 const mapStateToProps = createStructuredSelector({
   activeRoom: selectActiveRoom,
@@ -26,6 +27,7 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   closeCreateRoomDialog: RoomsActions.closeCreateRoomDialog,
   openCreateRoomDialog: RoomsActions.openCreateRoomDialog,
   createRoom: RoomsActions.createRoom,
+  signOut: UserAuthActions.signOut,
 }, dispatch);
 
 export default hot(module)(compose(
