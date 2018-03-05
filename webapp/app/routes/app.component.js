@@ -18,9 +18,11 @@ export class App extends PureComponent {
       push: PropTypes.func.isRequired,
     }).isRequired,
     location: PropTypes.object.isRequired,
+    listenForFirebaseAuth: PropTypes.func.isRequired,
   };
 
   componentWillMount() {
+    this.props.listenForFirebaseAuth();
     const language = this.props.match.params.lang || DEFAULT_LOCALE;
     if (appLocales.indexOf(language) === -1) {
       this.props.setLanguage(DEFAULT_LOCALE);

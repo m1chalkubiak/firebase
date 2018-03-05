@@ -6,7 +6,7 @@ import { pipe, defaultTo, converge, merge, identity, applySpec, always } from 'r
 
 import { dbRef } from '../utils/refs';
 import { createSaga } from '../utils/entityRegistry';
-import { RoomsTypes, RoomsActions, CREATE_ROOM_FORM } from './rooms.redux';
+import { RoomsTypes, RoomsActions, CREATE_ROOM_FORM, MESSAGE_FORM } from './rooms.redux';
 import { selectActiveRoomId, selectRooms } from './rooms.selectors';
 
 
@@ -42,6 +42,7 @@ export function* createMessage({ author, content }) {
         },
       })])
     ));
+    yield put(reset(MESSAGE_FORM));
   } catch (error) {
     /* istanbul ignore next */
     reportError(error);

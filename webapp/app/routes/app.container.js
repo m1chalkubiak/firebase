@@ -7,6 +7,7 @@ import { hot } from 'react-hot-loader';
 import { App } from './app.component';
 import { selectLocalesLanguage } from '../modules/locales/locales.selectors';
 import { LocalesActions } from '../modules/locales/locales.redux';
+import { UserAuthActions } from '../modules/userAuth/userAuth.redux';
 
 
 const mapStateToProps = createStructuredSelector({
@@ -15,6 +16,7 @@ const mapStateToProps = createStructuredSelector({
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   setLanguage: LocalesActions.setLanguage,
+  listenForFirebaseAuth: UserAuthActions.listenForFirebaseAuth,
 }, dispatch);
 
 export default hot(module)(withRouter(connect(mapStateToProps, mapDispatchToProps)(App)));

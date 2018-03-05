@@ -19,7 +19,6 @@ export class MessageBoxForm extends PureComponent {
 
   handleSubmit = (values) => new Promise(() => {
     this.props.onCreateMessage('Anonim', values.get('message'));
-    this.props.reset();
   });
 
   renderTextField = ({ input, type }) => (
