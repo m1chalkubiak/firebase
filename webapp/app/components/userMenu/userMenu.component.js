@@ -13,10 +13,6 @@ export class UserMenu extends PureComponent {
     onSignOut: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    data: {},
-  };
-
   state = {
     anchorEl: null,
   };
@@ -36,7 +32,7 @@ export class UserMenu extends PureComponent {
   render = () => (
     <div>
       <IconButton
-        aria-owns={this.open ? 'menu-appbar' : null}
+        aria-owns={this.open ? 'menu-appBar' : null}
         aria-haspopup="true"
         onClick={this.handleMenu}
         color="inherit"
@@ -44,7 +40,7 @@ export class UserMenu extends PureComponent {
         <UserAvatar user={this.props.user} />
       </IconButton>
       <Menu
-        id="menu-appbar"
+        id="menu-appBar"
         anchorEl={this.state.anchorEl}
         anchorOrigin={{
           vertical: 'top',

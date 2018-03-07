@@ -27,7 +27,7 @@ export class Message extends PureComponent {
 
   get author() { return this.user.get('displayName', ''); }
 
-  get content() { return this.props.message.get('content'); }
+  get content() { return this.props.message.get('content', ''); }
 
   renderPrimaryText = () => (
     <div>
