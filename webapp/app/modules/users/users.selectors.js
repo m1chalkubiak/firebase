@@ -12,5 +12,7 @@ export const selectUsers = createSelector(
 
 export const selectLoggedUser = createSelector(
   selectUsers, selectUserUid,
-  (users, email) => users.get(email, null)
+  (users, uid) => users.getIn([`${uid}`, 'value'], Map()).merge({
+    uid,
+  }),
 );

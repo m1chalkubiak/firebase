@@ -13,10 +13,11 @@ export class MessageList extends PureComponent {
   static propTypes = {
     loaded: PropTypes.bool.isRequired,
     messages: PropTypes.instanceOf(Map),
+    users: PropTypes.instanceOf(Map),
   };
 
   renderMessages = () => this.props.messages.sort().map((message) =>
-    <Message message={message.get('value')} key={message.get('_id')} />
+    <Message users={this.props.users} message={message.get('value')} key={message.get('_id')} />
   ).toArray();
 
   renderNoMessages = () => (

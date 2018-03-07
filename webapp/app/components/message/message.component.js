@@ -10,6 +10,7 @@ import { UserAvatar } from '../';
 
 export class Message extends PureComponent {
   static propTypes = {
+    users: PropTypes.instanceOf(Map),
     message: PropTypes.instanceOf(Map),
   };
 
@@ -22,7 +23,9 @@ export class Message extends PureComponent {
     return moment(data, 'hmm').format('HH:mm DD.MM.YYYY');
   }
 
-  get author() { return this.props.message.get('author'); }
+  get user() { return this.props.users.getIn([`${this.props.message.get('author')}`, 'value'], Map()); }
+
+  get author() { return this.user.get('displayName', ''); }
 
   get content() { return this.props.message.get('content'); }
 
@@ -41,7 +44,7 @@ export class Message extends PureComponent {
 
   render = () => (
     <ListItem>
-      <UserAvatar />
+      <UserAvatar user={this.user} />
       <ListItemText
         primary={this.renderPrimaryText()}
         secondary={this.renderSecondaryText()}

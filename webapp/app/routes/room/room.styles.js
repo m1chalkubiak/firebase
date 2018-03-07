@@ -46,6 +46,9 @@ export default theme => ({
   drawerHeader: {
     ...theme.mixins.toolbar,
   },
+  flex: {
+    flex: 1,
+  },
 });
 
 export const Wrapper = styled.div`

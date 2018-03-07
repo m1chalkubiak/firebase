@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { Map } from 'immutable';
 import IconButton from 'material-ui/IconButton';
-import AccountCircle from 'material-ui-icons/AccountCircle';
 import Menu, { MenuItem } from 'material-ui/Menu';
+
+import { UserAvatar } from '../';
 
 
 export class UserMenu extends PureComponent {
   static propTypes = {
-    data: PropTypes.object,
+    user: PropTypes.instanceOf(Map),
     onSignOut: PropTypes.func.isRequired,
   };
 
@@ -39,7 +41,7 @@ export class UserMenu extends PureComponent {
         onClick={this.handleMenu}
         color="inherit"
       >
-        <AccountCircle />
+        <UserAvatar user={this.props.user} />
       </IconButton>
       <Menu
         id="menu-appbar"

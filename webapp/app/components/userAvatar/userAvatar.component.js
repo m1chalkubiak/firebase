@@ -1,21 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ifElse, isEmpty } from 'ramda';
+import { ifElse, both, complement, isNil, gte } from 'ramda';
 import Avatar from 'material-ui/Avatar';
 import PersonIcon from 'material-ui-icons/Person';
+import { Map } from 'immutable';
 
 
 export class UserAvatar extends PureComponent {
   static propTypes = {
-    data: PropTypes.object,
+    user: PropTypes.instanceOf(Map),
   };
 
   static defaultProps = {
-    data: {},
+    user: Map(),
   };
 
   render = () => ifElse(
-    isEmpty,
+    isNil,
     () => (
       <Avatar>
         <PersonIcon />
@@ -23,9 +24,9 @@ export class UserAvatar extends PureComponent {
     ),
     () => (
       <Avatar
-        alt={data.alt}
-        src={data.src}
+        alt={this.props.user.get('displayName', '')}
+        src={this.props.user.get('profilePhoto', '')}
       />
     ),
-  )(this.props.data);
+  )(this.props.user);
 }

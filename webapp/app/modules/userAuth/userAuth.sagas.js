@@ -38,9 +38,9 @@ function* signInViaFacebook() {
 
 function* checkUserAccount({ user }) {
   try {
-    const isInFirebase = yield select(selectLoggedUser);
+    const loggedUser = yield select(selectLoggedUser);
 
-    if (isInFirebase) {
+    if (loggedUser.size > 1) {
       return null;
     }
 
