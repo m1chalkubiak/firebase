@@ -1,5 +1,5 @@
-import { fromJS, Map, Record } from 'immutable';
-import { createActions, createReducer } from 'reduxsauce';
+import { Map, Record } from 'immutable';
+import { createActions, createReducer } from '../utils/entityRegistry';
 import { UserAuthTypes } from '../userAuth/userAuth.redux';
 
 export const {
@@ -7,6 +7,7 @@ export const {
   Creators: UsersActions,
 } = createActions({
   createUser: ['user'],
+  listenForUsers: null,
 }, { prefix: 'USERS_' });
 
 const UserAuthRecord = new Record({

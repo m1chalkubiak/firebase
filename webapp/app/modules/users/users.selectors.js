@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect';
 import { Map } from 'immutable';
 
-import { selectUserEmail } from '../userAuth/userAuth.selectors';
+import { selectUserUid } from '../userAuth/userAuth.selectors';
 
-const selectDomain = (state) => state.get('users', Map());
+export const selectDomain = (state) => state.get('users', Map());
 
 export const selectUsers = createSelector(
   selectDomain,
@@ -11,6 +11,6 @@ export const selectUsers = createSelector(
 );
 
 export const selectLoggedUser = createSelector(
-  selectUsers, selectUserEmail,
+  selectUsers, selectUserUid,
   (users, email) => users.get(email, null)
 );

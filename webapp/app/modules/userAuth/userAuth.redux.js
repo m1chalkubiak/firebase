@@ -6,23 +6,26 @@ export const {
   Creators: UserAuthActions,
 } = createActions({
   signOut: null,
+  signInAnonymously: null,
   signInViaFacebook: null,
   signOutFromFirebase: null,
   checkUserAccount: ['user'],
   listenForFirebaseAuth: null,
-  setUserData: ['email'],
+  setUserData: ['uid', 'isAnonymous'],
 }, { prefix: 'USER_AUTH_' });
 
 const UserAuthRecord = new Record({
-  email: null,
+  uid: null,
+  isAnonymous: null,
 }, 'userAuth');
 
 const INITIAL_STATE = new UserAuthRecord();
 
 const signOut = (state) => state.merge(INITIAL_STATE);
 
-const setUserData = (state, { email }) => state.merge({
-  email: email,
+const setUserData = (state, { uid, isAnonymous }) => state.merge({
+  uid,
+  isAnonymous,
 });
 
 export const reducer = createReducer(INITIAL_STATE, {

@@ -1,10 +1,20 @@
 import { always, applySpec, converge, defaultTo, identity, merge, pipe } from 'ramda';
-import { all, takeLatest } from 'redux-saga/effects';
+import { all, fork, put, select, takeLatest } from 'redux-saga/effects';
 import reportError from 'report-error';
 
 import { dbRef } from '../utils/refs';
-import { UsersTypes } from './users.redux';
+import { createSaga } from '../utils/entityRegistry';
+import { UsersTypes, UsersActions } from './users.redux';
+import { selectDomain as selectUsers } from './users.selectors';
+import { UserAuthTypes } from '../userAuth/userAuth.redux';
 
+
+const registrySaga = createSaga({
+  actions: UsersActions,
+  types: UsersTypes,
+  baseDbRef: dbRef,
+  registrySelector: selectUsers,
+});
 
 export function* createUser({ user }) {
   try {
@@ -26,9 +36,20 @@ export function* createUser({ user }) {
   }
 }
 
+export function* startListeningForState() {
+  try {
+    yield put(UsersActions.startListening('/users', 'items'));
+  } catch (error) {
+    /* istanbul ignore next */
+    reportError(error);
+  }
+}
+
 export default function* watchUsers() {
   try {
     yield all([
+      fork(registrySaga),
+      takeLatest(UsersTypes.LISTEN_FOR_USERS, startListeningForState),
       takeLatest(UsersTypes.CREATE_USER, createUser),
     ]);
   } catch (error) {

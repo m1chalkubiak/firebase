@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 export const selectUser = (state) => state.get('userAuth', Map());
 
-export const selectUserEmail = createSelector(
+export const selectUserUid = createSelector(
   selectUser,
-  (state) => state.get('email', Map()),
+  (state) => state.get('uid', Map()),
 );
