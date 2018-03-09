@@ -1,4 +1,4 @@
-import { always, applySpec, converge, defaultTo, identity, merge, pipe } from 'ramda';
+import { pick } from 'ramda';
 import { all, fork, put, takeLatest } from 'redux-saga/effects';
 import reportError from 'report-error';
 
@@ -15,20 +15,11 @@ const registrySaga = createSaga({
   registrySelector: selectUsers,
 });
 
-export function* createUser({ user }) {
+export function* createUser({ user: { uid, ...user } }) {
   try {
     const usersRef = dbRef.child('users');
 
-    yield usersRef.transaction(pipe(
-      defaultTo({}),
-      converge(merge, [identity, applySpec({
-        [user.uid]: {
-          email: always(user.email),
-          displayName: always(user.displayName),
-          profilePhoto: always(user.profilePhoto),
-        },
-      })])
-    ));
+    yield usersRef.child(uid).update(pick(['email', 'displayName', 'profilePhoto'])(user));
   } catch (error) {
     /* istanbul ignore next */
     reportError(error);
