@@ -8,6 +8,7 @@ import { UserAuthTypes, UserAuthActions } from './userAuth.redux';
 import { selectLoggedUser } from '../users/users.selectors';
 import { selectUser } from './userAuth.selectors';
 import { UsersActions } from '../users/users.redux';
+import { selectLocationState } from '../router/router.selectors';
 
 
 const provider = new firebase.auth.FacebookAuthProvider();
@@ -89,11 +90,14 @@ function* listenForFirebaseAuth() {
         yield put(UsersActions.listenForUsers());
 
         const currentUserData = yield select(selectUser);
+        const { locationBeforeTransitions: { pathname } } = yield select(selectLocationState());
 
-        if (currentUserData.isAnonymous) {
+        if (pathname !== '/login' && currentUserData.get('isAnonymous')) {
           yield put(replace('/login'));
-        } else {
-          yield put(replace('/room/'));
+        }
+
+        if (pathname === '/login' && !currentUserData.get('isAnonymous')) {
+          yield put(replace('/room'));
         }
       }
     }
