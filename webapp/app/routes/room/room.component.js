@@ -61,7 +61,7 @@ export class Room extends PureComponent {
   render() {
     const {
       classes, roomMessages, createMessage, rooms, activeRoom, messagesLoaded, createRoomDialogOpened,
-      closeCreateRoomDialog, openCreateRoomDialog, createRoom, signOut, loggedUser, users
+      closeCreateRoomDialog, openCreateRoomDialog, createRoom, signOut, loggedUser, users,
     } = this.props;
     const appBarClasses = classNames(classes.appBar, {
       [classes.appBarShift]: this.state.open,

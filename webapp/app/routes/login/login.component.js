@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import Typography from 'material-ui/Typography';
+import { FormattedMessage } from 'react-intl';
 
 import { Wrapper, LoginContainer, LoginButton, LoginIcon } from './login.styles';
-import messages from '../../components/createRoomDialog/createRoomDialog.messages';
+import messages from './login.messages';
 
 
 export class Login extends PureComponent {
@@ -20,10 +21,10 @@ export class Login extends PureComponent {
         <Helmet title="Login" />
         <LoginContainer>
           <Typography variant="headline" gutterBottom>
-            Want to log in ?
+            <FormattedMessage {...messages.headline} />
           </Typography>
           <LoginButton variant="raised" color="primary" onClick={signInViaFacebook}>
-            via Facebook
+            <FormattedMessage {...messages.viaFacebook} />
             <LoginIcon />
           </LoginButton>
         </LoginContainer>

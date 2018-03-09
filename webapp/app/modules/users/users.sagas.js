@@ -1,12 +1,11 @@
 import { always, applySpec, converge, defaultTo, identity, merge, pipe } from 'ramda';
-import { all, fork, put, select, takeLatest } from 'redux-saga/effects';
+import { all, fork, put, takeLatest } from 'redux-saga/effects';
 import reportError from 'report-error';
 
 import { dbRef } from '../utils/refs';
 import { createSaga } from '../utils/entityRegistry';
 import { UsersTypes, UsersActions } from './users.redux';
 import { selectDomain as selectUsers } from './users.selectors';
-import { UserAuthTypes } from '../userAuth/userAuth.redux';
 
 
 const registrySaga = createSaga({

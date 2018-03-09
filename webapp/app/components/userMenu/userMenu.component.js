@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { Map } from 'immutable';
 import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
+import { FormattedMessage } from 'react-intl';
 
 import { UserAvatar } from '../';
+import messages from './userMenu.messages';
 
 
 export class UserMenu extends PureComponent {
@@ -53,7 +55,9 @@ export class UserMenu extends PureComponent {
         open={this.open}
         onClose={this.handleClose}
       >
-        <MenuItem onClick={this.props.onSignOut}>Log Out</MenuItem>
+        <MenuItem onClick={this.props.onSignOut}>
+          <FormattedMessage {...messages.logOut} />
+        </MenuItem>
       </Menu>
     </div>
   );

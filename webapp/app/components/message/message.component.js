@@ -25,20 +25,16 @@ export class Message extends PureComponent {
 
   get user() { return this.props.users.getIn([`${this.props.message.get('author')}`, 'value'], Map()); }
 
-  get author() { return this.user.get('displayName', ''); }
-
-  get content() { return this.props.message.get('content', ''); }
-
   renderPrimaryText = () => (
     <div>
-      <Author>{this.author}</Author>
+      <Author>{this.user.get('displayName', '')}</Author>
       <Data>{this.time}</Data>
     </div>
   );
 
   renderSecondaryText = () => (
     <MessageContent>
-      {this.content}
+      {this.props.message.get('content', '')}
     </MessageContent>
   );
 

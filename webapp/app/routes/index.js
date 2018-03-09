@@ -19,9 +19,9 @@ export class RootContainer extends Component {
           <App>
             <Switch>
               <Route exact path="/login" component={Login} />
-              <Route exact path="/room/" render={() => <Redirect to={`/room/${DEFAULT_ROOM}`} />} />
               <Route exact path="/404" component={NotFound} />
               <Route exact path="/room/:id" component={Room} />
+              <Route exact path="/room/" render={() => <Redirect to={`/room/${DEFAULT_ROOM}`} />} />
               <Route component={NotFound} />
             </Switch>
           </App>
