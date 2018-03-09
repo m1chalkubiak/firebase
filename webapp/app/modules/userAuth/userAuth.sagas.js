@@ -23,15 +23,10 @@ function* signInAnonymously() {
 
 function* signInViaFacebook() {
   try {
-    const { user } = yield firebase.auth().signInWithPopup(provider);
-    const userData = {
-      uid: user.uid,
-      email: user.email,
-      displayName: user.displayName,
-      profilePhoto: user.photoURL,
-    };
-    yield put(UserAuthActions.setUserData(user.uid, user.isAnonymous));
-    yield put(UserAuthActions.checkUserAccount(userData));
+    const { user: { uid, email, displayName, photoURL: profilePhoto, isAnonymous } } =
+      yield firebase.auth().signInWithPopup(provider);
+    yield put(UserAuthActions.setUserData(uid, isAnonymous));
+    yield put(UserAuthActions.checkUserAccount({ uid, email, displayName, profilePhoto }));
   } catch (error) {
     reportError(error);
   }

@@ -21,7 +21,7 @@ const UserAuthRecord = new Record({
 
 const INITIAL_STATE = new UserAuthRecord();
 
-const signOut = (state) => state.merge(INITIAL_STATE);
+const signOut = () => INITIAL_STATE;
 
 const setUserData = (state, { uid, isAnonymous }) => state.merge({
   uid,

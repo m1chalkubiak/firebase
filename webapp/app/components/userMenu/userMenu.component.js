@@ -20,16 +20,14 @@ export class UserMenu extends PureComponent {
   };
 
   get open() {
-    return Boolean(this.state.anchorEl);
+    return !!this.state.anchorEl;
   }
 
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
 
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+  handleMenu = ({ currentTarget: anchorEl }) => this.setState({ anchorEl });
 
   render = () => (
     <div>
