@@ -5,7 +5,7 @@ import IconButton from 'material-ui/IconButton';
 import Menu, { MenuItem } from 'material-ui/Menu';
 import { FormattedMessage } from 'react-intl';
 
-import { UserAvatar } from '../';
+import { UserAvatar } from '../userAvatar/userAvatar.component';
 import messages from './userMenu.messages';
 
 

@@ -5,7 +5,7 @@ import moment from 'moment';
 import { ListItem, ListItemText } from 'material-ui/List';
 
 import { Author, Data, MessageContent } from './message.styles';
-import { UserAvatar } from '../';
+import { UserAvatar } from '../userAvatar/userAvatar.component';
 
 
 export class Message extends PureComponent {

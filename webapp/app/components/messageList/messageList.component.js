@@ -5,7 +5,7 @@ import { Typography } from 'material-ui';
 import { FormattedMessage } from 'react-intl';
 
 import { Wrapper, Content, Loader, NoMessages, LoaderWrapper } from './messageList.styles';
-import { Message } from '../';
+import { Message } from '../message/message.component';
 import messages from './messageList.messages';
 
 
