@@ -11,7 +11,7 @@ import { UsersActions } from '../users/users.redux';
 import { selectLocationState } from '../router/router.selectors';
 
 
-const provider = new firebase.auth.FacebookAuthProvider();
+const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
 function* signInAnonymously() {
   try {
@@ -24,20 +24,20 @@ function* signInAnonymously() {
 function* signInViaFacebook() {
   try {
     const { user: { uid, email, displayName, photoURL: profilePhoto, isAnonymous } } =
-      yield firebase.auth().signInWithPopup(provider);
+      yield firebase.auth().signInWithPopup(facebookProvider);
     yield put(UserAuthActions.setUserData(uid, isAnonymous));
-    yield put(UserAuthActions.checkUserAccount({ uid, email, displayName, profilePhoto }));
+    yield put(UserAuthActions.checkIfUserAccountExists({ uid, email, displayName, profilePhoto }));
   } catch (error) {
     reportError(error);
   }
 }
 
-function* checkUserAccount({ user }) {
+function* checkIfUserAccountExists({ user }) {
   try {
     const loggedUser = yield select(selectLoggedUser);
 
     if (loggedUser.size > 1) {
-      return null;
+      return;
     }
 
     yield put(UsersActions.createUser(user));
@@ -108,7 +108,7 @@ export default function* watchUserAuth() {
       takeLatest(UserAuthTypes.LISTEN_FOR_FIREBASE_AUTH, listenForFirebaseAuth),
       takeLatest(UserAuthTypes.SIGN_IN_ANONYMOUSLY, signInAnonymously),
       takeLatest(UserAuthTypes.SIGN_IN_VIA_FACEBOOK, signInViaFacebook),
-      takeLatest(UserAuthTypes.CHECK_USER_ACCOUNT, checkUserAccount),
+      takeLatest(UserAuthTypes.CHECK_IF_USER_ACCOUNT_EXISTS, checkIfUserAccountExists),
       takeLatest(UserAuthTypes.SIGN_OUT, signOutFromFirebase),
     ]);
   } catch (error) {

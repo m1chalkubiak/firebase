@@ -27,14 +27,14 @@ export class UserMenu extends PureComponent {
     this.setState({ anchorEl: null });
   };
 
-  handleMenu = ({ currentTarget: anchorEl }) => this.setState({ anchorEl });
+  handleOpen = ({ currentTarget: anchorEl }) => this.setState({ anchorEl });
 
   render = () => (
     <div>
       <IconButton
         aria-owns={this.open ? 'menu-appBar' : null}
         aria-haspopup="true"
-        onClick={this.handleMenu}
+        onClick={this.handleOpen}
         color="inherit"
       >
         <UserAvatar user={this.props.user} />

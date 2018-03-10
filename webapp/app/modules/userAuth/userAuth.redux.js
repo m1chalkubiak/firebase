@@ -9,7 +9,7 @@ export const {
   signInAnonymously: null,
   signInViaFacebook: null,
   signOutFromFirebase: null,
-  checkUserAccount: ['user'],
+  checkIfUserAccountExists: ['user'],
   listenForFirebaseAuth: null,
   setUserData: ['uid', 'isAnonymous'],
 }, { prefix: 'USER_AUTH_' });

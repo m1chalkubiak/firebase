@@ -17,7 +17,10 @@ export class MessageList extends PureComponent {
   };
 
   renderMessages = () => this.props.messages.sort().map((message) =>
-    <Message users={this.props.users} message={message.get('value')} key={message.get('_id')} />
+    <Message
+      user={this.props.users.getIn([`${message.getIn(['value', 'author'])}`, 'value'], Map())}
+      message={message.get('value')} key={message.get('_id')}
+    />
   ).toArray();
 
   renderNoMessages = () => (
