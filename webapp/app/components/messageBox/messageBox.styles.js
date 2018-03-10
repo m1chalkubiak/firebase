@@ -9,5 +9,5 @@ export const Wrapper = styled(Card)`
 `;
 
 export const Form = styled.form`
- width: calc(100% - 55px)
+ width: 100%;
 `;

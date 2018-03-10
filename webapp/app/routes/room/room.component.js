@@ -15,7 +15,7 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import WhatsHotIcon from 'material-ui-icons/Whatshot';
 
 import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, Content } from './room.styles';
-import { MessageList, MessageBox, RoomList, CreateRoomDialog } from '../../components/';
+import { MessageList, MessageBox, RoomList, CreateRoomDialog, UserMenu } from '../../components/';
 import messages from './room.messages';
 
 
@@ -33,6 +33,9 @@ export class Room extends PureComponent {
     closeCreateRoomDialog: PropTypes.func.isRequired,
     openCreateRoomDialog: PropTypes.func.isRequired,
     createRoom: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired,
+    loggedUser: PropTypes.instanceOf(Map),
+    users: PropTypes.instanceOf(Map),
   };
 
   state = {
@@ -58,7 +61,7 @@ export class Room extends PureComponent {
   render() {
     const {
       classes, roomMessages, createMessage, rooms, activeRoom, messagesLoaded, createRoomDialogOpened,
-      closeCreateRoomDialog, openCreateRoomDialog, createRoom,
+      closeCreateRoomDialog, openCreateRoomDialog, createRoom, signOut, loggedUser, users,
     } = this.props;
     const appBarClasses = classNames(classes.appBar, {
       [classes.appBarShift]: this.state.open,
@@ -84,10 +87,12 @@ export class Room extends PureComponent {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="title" color="inherit" noWrap>
+              <Typography className={classes.flex} variant="title" color="inherit" noWrap>
                 <WhatsHotIcon />
                 <FormattedMessage {...messages.appName} />
               </Typography>
+
+              <UserMenu user={loggedUser} onSignOut={signOut} />
             </Toolbar>
           </AppBar>
           <Drawer
@@ -106,8 +111,8 @@ export class Room extends PureComponent {
             </MenuDrawerInner>
           </Drawer>
           <Content>
-            <MessageList loaded={messagesLoaded} messages={roomMessages} />
-            <MessageBox onCreateMessage={createMessage} />
+            <MessageList users={users} loaded={messagesLoaded} messages={roomMessages} />
+            <MessageBox user={loggedUser} onCreateMessage={createMessage} />
           </Content>
         </Container>
         <CreateRoomDialog

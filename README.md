@@ -4,9 +4,9 @@ Simple web app chat using firebase features.
 
 ## Features to implement
 
-- [ ] Users `Authentication` via email, Google or Facebook, and maybe a phone number.
+- [x] Users `Authentication` via email, Google or Facebook, and maybe a phone number.
 - [ ] Profiles stored via `Cloud Firestore`
-- [ ] Connecting to `Realtime Database`
+- [x] Connecting to `Realtime Database`
 - [ ] Adding counters, creation of rooms, and others via `Cloud Functions`
 - [ ] `Cloud Storage` maybe users profile avatars :question:
 - [ ] Configure hosting via [Hosting](https://firebase.google.com/products/hosting/)

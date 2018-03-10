@@ -5,11 +5,12 @@ import moment from 'moment';
 import { ListItem, ListItemText } from 'material-ui/List';
 
 import { Author, Data, MessageContent } from './message.styles';
-import { UserAvatar } from '../';
+import { UserAvatar } from '../userAvatar/userAvatar.component';
 
 
 export class Message extends PureComponent {
   static propTypes = {
+    user: PropTypes.instanceOf(Map),
     message: PropTypes.instanceOf(Map),
   };
 
@@ -22,26 +23,24 @@ export class Message extends PureComponent {
     return moment(data, 'hmm').format('HH:mm DD.MM.YYYY');
   }
 
-  get author() { return this.props.message.get('author'); }
-
-  get content() { return this.props.message.get('content'); }
+  get user() { return this.props.user; }
 
   renderPrimaryText = () => (
     <div>
-      <Author>{this.author}</Author>
+      <Author>{this.user.get('displayName', '')}</Author>
       <Data>{this.time}</Data>
     </div>
   );
 
   renderSecondaryText = () => (
     <MessageContent>
-      {this.content}
+      {this.props.message.get('content', '')}
     </MessageContent>
   );
 
   render = () => (
     <ListItem>
-      <UserAvatar />
+      <UserAvatar user={this.user} />
       <ListItemText
         primary={this.renderPrimaryText()}
         secondary={this.renderSecondaryText()}

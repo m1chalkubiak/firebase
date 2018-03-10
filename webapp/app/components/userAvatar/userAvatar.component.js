@@ -1,31 +1,22 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { ifElse, isEmpty } from 'ramda';
 import Avatar from 'material-ui/Avatar';
-import PersonIcon from 'material-ui-icons/Person';
+import { Map } from 'immutable';
 
 
 export class UserAvatar extends PureComponent {
   static propTypes = {
-    data: PropTypes.object,
+    user: PropTypes.instanceOf(Map),
   };
 
   static defaultProps = {
-    data: {},
+    user: Map(),
   };
 
-  render = () => ifElse(
-    isEmpty,
-    () => (
-      <Avatar>
-        <PersonIcon />
-      </ Avatar>
-    ),
-    () => (
-      <Avatar
-        alt={data.alt}
-        src={data.src}
-      />
-    ),
-  )(this.props.data);
+  render = () => (
+    <Avatar
+      alt={this.props.user.get('displayName', '')}
+      src={this.props.user.get('profilePhoto', '')}
+    />
+  );
 }

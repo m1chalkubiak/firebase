@@ -5,7 +5,7 @@ import { Typography } from 'material-ui';
 import { FormattedMessage } from 'react-intl';
 
 import { Wrapper, Content, Loader, NoMessages, LoaderWrapper } from './messageList.styles';
-import { Message } from '../';
+import { Message } from '../message/message.component';
 import messages from './messageList.messages';
 
 
@@ -13,10 +13,14 @@ export class MessageList extends PureComponent {
   static propTypes = {
     loaded: PropTypes.bool.isRequired,
     messages: PropTypes.instanceOf(Map),
+    users: PropTypes.instanceOf(Map),
   };
 
   renderMessages = () => this.props.messages.sort().map((message) =>
-    <Message message={message.get('value')} key={message.get('_id')} />
+    <Message
+      user={this.props.users.getIn([`${message.getIn(['value', 'author'])}`, 'value'], Map())}
+      message={message.get('value')} key={message.get('_id')}
+    />
   ).toArray();
 
   renderNoMessages = () => (

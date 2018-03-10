@@ -1,25 +1,25 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form/immutable';
+import { Map } from 'immutable';
 import { compose } from 'ramda';
 import { TextField } from 'material-ui';
 
 import { MESSAGE_FORM } from '../../modules/rooms/rooms.redux';
 import { Wrapper, Form } from './messageBox.styles';
-import { UserAvatar } from '../';
 
 
 export class MessageBoxForm extends PureComponent {
   static propTypes = {
     message: PropTypes.string,
     onCreateMessage: PropTypes.func.isRequired,
+    user: PropTypes.instanceOf(Map),
     handleSubmit: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
   };
 
   handleSubmit = (values) => new Promise(() => {
-    this.props.onCreateMessage('Anonim', values.get('message'));
-    this.props.reset();
+    this.props.onCreateMessage(this.props.user.get('uid', null), values.get('message'));
   });
 
   renderTextField = ({ input, type }) => (
@@ -33,7 +33,6 @@ export class MessageBoxForm extends PureComponent {
 
   render = () => (
     <Wrapper onClick={this.handleClick}>
-      <UserAvatar />
       <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <Field
           component={this.renderTextField}
