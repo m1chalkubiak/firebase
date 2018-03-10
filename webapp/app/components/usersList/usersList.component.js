@@ -7,7 +7,7 @@ import PeopleIcon from 'material-ui-icons/People';
 
 import { UserAvatar } from '../userAvatar/userAvatar.component';
 import messages from './usersList.messages';
-import { UserItem  } from './usersList.styles';
+import { UserItem } from './usersList.styles';
 
 
 export class UsersListComponent extends PureComponent {
