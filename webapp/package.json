@@ -22,7 +22,7 @@
     "preinstall": "npm run npmcheckversion",
     "postinstall": "npm run build:dll",
     "prebuild": "npm run build:clean",
-    "build": "cross-env NODE_ENV=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress",
+    "build": "cross-env NODE_ENV=production ENV_CONFIG=production webpack --config internals/webpack/webpack.prod.babel.js --color -p --progress",
     "build:clean": "npm run test:clean && rimraf ./dist/*",
     "build:dll": "node ./internals/scripts/dependencies.js",
     "start": "cross-env NODE_ENV=development SHOW_VERSION=false node server",
@@ -42,7 +42,8 @@
     "test:clean": "rimraf ./coverage",
     "test:watch": "npm run test -- --watch",
     "test:junit": "JEST_JUNIT_OUTPUT=./junit/junitOutput.xml npm test -- --ci --testResultsProcessor='jest-junit'",
-    "test:coverage": "npm run test -- --coverage "
+    "test:coverage": "npm run test -- --coverage ",
+    "deploy": "npm run build && firebase deploy --only hosting"
   },
   "dllPlugin": {
     "path": "node_modules/react-boilerplate-dlls",
