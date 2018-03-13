@@ -6,6 +6,7 @@ import firebase from 'firebase';
 
 import { UserAuthTypes, UserAuthActions } from './userAuth.redux';
 import { selectLoggedUser } from '../users/users.selectors';
+import { RoomsActions } from '../rooms/rooms.redux';
 import { selectUser } from './userAuth.selectors';
 import { OFFLINE_STATUS, ONLINE_STATUS, UsersActions } from '../users/users.redux';
 import { selectLocationState } from '../router/router.selectors';
@@ -106,6 +107,15 @@ function* listenForFirebaseAuth() {
   }
 }
 
+function* setUserData() {
+  try {
+    yield put(RoomsActions.addUserToRoom());
+  } catch (error) {
+    /* istanbul ignore next */
+    reportError(error);
+  }
+}
+
 export default function* watchUserAuth() {
   try {
     yield all([
@@ -114,6 +124,7 @@ export default function* watchUserAuth() {
       takeLatest(UserAuthTypes.SIGN_IN_VIA_FACEBOOK, signInViaFacebook),
       takeLatest(UserAuthTypes.CHECK_IF_USER_ACCOUNT_EXISTS, checkIfUserAccountExists),
       takeLatest(UserAuthTypes.SIGN_OUT, signOutFromFirebase),
+      takeLatest(UserAuthTypes.SET_USER_DATA, setUserData),
     ]);
   } catch (error) {
     /* istanbul ignore next */

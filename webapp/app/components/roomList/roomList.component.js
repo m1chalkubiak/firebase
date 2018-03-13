@@ -1,22 +1,24 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { ifElse, equals, always } from 'ramda';
-import { injectIntl } from 'react-intl';
+import { ifElse, equals, always, gt } from 'ramda';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import List, { ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction } from 'material-ui/List';
+import ListSubheader from 'material-ui/List/ListSubheader';
 import IconButton from 'material-ui/IconButton';
 import ChatIcon from 'material-ui-icons/Chat';
 import ListIcon from 'material-ui-icons/FormatListBulleted';
 import AddIcon from 'material-ui-icons/AddBox';
 
-import { RoomLink } from './roomList.styles';
+import { RoomLink, RoomListGroup } from './roomList.styles';
 import messages from './roomList.messages';
 
 
 export class RoomListComponent extends PureComponent {
   static propTypes = {
     intl: PropTypes.object.isRequired,
-    rooms: PropTypes.instanceOf(Map),
+    activeRooms: PropTypes.instanceOf(Map),
+    inactiveRooms: PropTypes.instanceOf(Map),
     activeRoom: PropTypes.object.isRequired,
     onOpenCreateRoomDialog: PropTypes.func.isRequired,
   };
@@ -24,6 +26,12 @@ export class RoomListComponent extends PureComponent {
   static defaultProps = {
     rooms: Map(),
   };
+
+  isRoomActive = (id) => ifElse(
+    equals(this.props.activeRoom.get('id')),
+    always({ active: 'active' }),
+    always(null)
+  )(id);
 
   renderRoomLabel = () => (
     <ListItem>
@@ -39,15 +47,10 @@ export class RoomListComponent extends PureComponent {
     </ListItem>
   );
 
-  renderList = () => {
-    const isActive = ifElse(
-      equals(this.props.activeRoom.get('id')),
-      always({ active: 'active' }),
-      always(null)
-    );
-
-    return this.props.rooms.sort().map((room) =>
-      <RoomLink to={room.get('_id')} key={room.get('_id')} {...isActive(room.get('_id'))}>
+  renderListItems = (rooms) => rooms
+    .sort()
+    .map((room) =>
+      <RoomLink to={room.get('_id')} key={room.get('_id')} {...this.isRoomActive(room.get('_id'))}>
         <ListItem button>
           <ListItemIcon>
             <ChatIcon />
@@ -55,13 +58,28 @@ export class RoomListComponent extends PureComponent {
           <ListItemText primary={room.getIn(['value', 'name'])} />
         </ListItem>
       </RoomLink>
-    ).toArray();
+    )
+    .toArray();
+
+  renderList = (rooms, label) => {
+    return ifElse(
+      gt(0),
+      always(
+        <RoomListGroup>
+          <ListSubheader><FormattedMessage {...label} /></ListSubheader>
+          {this.renderListItems(rooms)}
+        </RoomListGroup>
+      ),
+      always(null)
+    )(rooms.size);
   };
+
 
   render = () => (
     <List component="nav">
       {this.renderRoomLabel()}
-      {this.renderList()}
+      {this.renderList(this.props.activeRooms, messages.activeRooms)}
+      {this.renderList(this.props.inactiveRooms, messages.inactiveRooms)}
     </List>
   );
 }

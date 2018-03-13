@@ -2,12 +2,20 @@ import { createSelector } from 'reselect';
 import { Map } from 'immutable';
 
 import { selectUserUid } from '../userAuth/userAuth.selectors';
+import { selectActiveRoom } from '../rooms/rooms.selectors';
 
 export const selectDomain = (state) => state.get('users', Map());
 
 export const selectUsers = createSelector(
   selectDomain,
   (state) => state.get('items', Map()),
+);
+
+export const selectUsersInActiveRoom = createSelector(
+  selectActiveRoom, selectUsers,
+  (activeRoom, users) => activeRoom.get('users', Map())
+    .map((value, key) => users.get(key))
+    .filter((value) => value),
 );
 
 export const selectLoggedUser = createSelector(

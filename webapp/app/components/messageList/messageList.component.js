@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 import { Typography } from 'material-ui';
 import { FormattedMessage } from 'react-intl';
 
-import { Wrapper, Content, Loader, NoMessages, LoaderWrapper } from './messageList.styles';
+import { Wrapper, Content, Loader, NoMessages, LoaderWrapper, MessagesWrapper } from './messageList.styles';
 import { Message } from '../message/message.component';
 import messages from './messageList.messages';
 
@@ -16,12 +16,22 @@ export class MessageList extends PureComponent {
     users: PropTypes.instanceOf(Map),
   };
 
-  renderMessages = () => this.props.messages.sort().map((message) =>
-    <Message
-      user={this.props.users.getIn([`${message.getIn(['value', 'author'])}`, 'value'], Map())}
-      message={message.get('value')} key={message.get('_id')}
-    />
-  ).toArray();
+  componentDidUpdate({ messages: prevMessages }) {
+    if (prevMessages.size < this.props.messages.size) {
+      this.messagesWrapperRef.scrollTop = this.messagesWrapperRef.scrollHeight;
+    }
+  }
+
+  renderMessages = () => (
+    <MessagesWrapper innerRef={(ref) => (this.messagesWrapperRef = ref)}>
+      {this.props.messages.sort().map((message) =>
+        <Message
+          user={this.props.users.getIn([`${message.getIn(['value', 'author'])}`, 'value'], Map())}
+          message={message.get('value')} key={message.get('_id')}
+        />
+      ).toArray()}
+    </MessagesWrapper>
+  );
 
   renderNoMessages = () => (
     <NoMessages>

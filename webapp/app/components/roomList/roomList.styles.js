@@ -9,3 +9,5 @@ export const RoomLink = styled(Link)`
   
   background-color: ${props => props.active && colors.grey['300']};
 `;
+
+export const RoomListGroup = styled.div``;

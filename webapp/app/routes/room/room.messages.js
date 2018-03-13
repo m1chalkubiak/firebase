@@ -5,4 +5,8 @@ export default defineMessages({
     id: 'room.appName',
     defaultMessage: 'Firebase Chat',
   },
+  leaveRoom: {
+    id: 'room.leaveRoom',
+    defaultMessage: 'Leave room',
+  },
 });

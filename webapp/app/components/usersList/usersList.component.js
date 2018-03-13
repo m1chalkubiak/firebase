@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
+import { ifElse, always, gt } from 'ramda';
 import { injectIntl } from 'react-intl';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import PeopleIcon from 'material-ui-icons/People';
@@ -36,12 +37,16 @@ export class UsersListComponent extends PureComponent {
     </UserItem>
   ).toArray();
 
-  render = () => (
-    <List component="nav">
-      {this.renderRoomLabel()}
-      {this.renderList()}
-    </List>
-  );
+  render = () => ifElse(
+    gt(0),
+    always(
+      <List component="nav">
+        {this.renderRoomLabel()}
+        {this.renderList()}
+      </List>
+    ),
+    always(null),
+  )(this.props.users.size);
 }
 
 export const UsersList = injectIntl(UsersListComponent);
