@@ -78,7 +78,6 @@ export function* startListeningForState() {
     const roomName = yield select(selectActiveRoomId);
 
     yield put(RoomsActions.addUserToRoom());
-
     yield put(RoomsActions.startListening(`/messages/${roomName}`, 'messages'));
     yield put(RoomsActions.startListening('/rooms', 'roomsList'));
   } catch (error) {
@@ -107,7 +106,7 @@ export function* removeUserFromRoom() {
     const userUid = yield select(selectUserUid);
 
     if (roomName && userUid) {
-      yield dbRef.child('rooms').child(roomName).child('users').child(userUid).set(null);
+      yield dbRef.child('rooms').child(roomName).child('users').child(userUid).remove();
       yield put(push(`/room/${DEFAULT_ROOM}`));
     }
   } catch (error) {

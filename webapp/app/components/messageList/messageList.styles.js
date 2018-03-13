@@ -1,12 +1,14 @@
 import styled, { css } from 'styled-components';
 import { Card, CircularProgress } from 'material-ui';
+import { FOOTER_HEIGHT } from '../../theme/global';
+
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   width: 100%;
-  height: calc(100% - 61px);
+  height: calc(100% - ${FOOTER_HEIGHT}px);
 `;
 
 export const Content = styled(Card)`

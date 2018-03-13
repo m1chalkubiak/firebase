@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { Map } from 'immutable';
+import { complement, isNil } from 'ramda';
 
 import { selectUserUid } from '../userAuth/userAuth.selectors';
 import { selectActiveRoom } from '../rooms/rooms.selectors';
@@ -15,7 +16,7 @@ export const selectUsersInActiveRoom = createSelector(
   selectActiveRoom, selectUsers,
   (activeRoom, users) => activeRoom.get('users', Map())
     .map((value, key) => users.get(key))
-    .filter((value) => value),
+    .filter(complement(isNil)),
 );
 
 export const selectLoggedUser = createSelector(

@@ -26,7 +26,7 @@ export class MessageList extends PureComponent {
     <MessagesWrapper innerRef={(ref) => (this.messagesWrapperRef = ref)}>
       {this.props.messages.sort().map((message) =>
         <Message
-          user={this.props.users.getIn([`${message.getIn(['value', 'author'])}`, 'value'], Map())}
+          user={this.props.users.getIn([message.getIn(['value', 'author']), 'value'], Map())}
           message={message.get('value')} key={message.get('_id')}
         />
       ).toArray()}

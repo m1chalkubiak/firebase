@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { ifElse, always, gt } from 'ramda';
+import { ifElse, always, lt } from 'ramda';
 import { injectIntl } from 'react-intl';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import PeopleIcon from 'material-ui-icons/People';
@@ -38,8 +38,8 @@ export class UsersListComponent extends PureComponent {
   ).toArray();
 
   render = () => ifElse(
-    gt(0),
-    always(
+    lt(0),
+    () => (
       <List component="nav">
         {this.renderRoomLabel()}
         {this.renderList()}

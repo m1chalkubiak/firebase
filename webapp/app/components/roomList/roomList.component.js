@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
-import { ifElse, equals, always, gt } from 'ramda';
+import { ifElse, equals, always, lt } from 'ramda';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import List, { ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction } from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
@@ -63,8 +63,8 @@ export class RoomListComponent extends PureComponent {
 
   renderList = (rooms, label) => {
     return ifElse(
-      gt(0),
-      always(
+      lt(0),
+      () => (
         <RoomListGroup>
           <ListSubheader><FormattedMessage {...label} /></ListSubheader>
           {this.renderListItems(rooms)}

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme, DRAWER_WIDTH } from '../../theme/global';
+import { theme, DRAWER_WIDTH, FOOTER_HEIGHT } from '../../theme/global';
 
 
 export default theme => ({
@@ -51,11 +51,11 @@ export default theme => ({
     textTransform: 'none',
   },
   leaveRoomLabel: {
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
   },
   leaveRoomIcon: {
-    marginRight: 16,
+    marginRight: theme.spacing.unit * 2,
   },
   flex: {
     flex: 1,
@@ -98,7 +98,7 @@ export const MenuDrawerContent = styled.div`
 `;
 
 export const MenuDrawerFooter = styled.div`
-  height: 61px;
+  height: ${FOOTER_HEIGHT}px;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   display: flex;
   align-items: center;

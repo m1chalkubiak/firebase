@@ -72,7 +72,7 @@ export class Room extends PureComponent {
 
     return ifElse(
       complement(equals(DEFAULT_ROOM)),
-      always(
+      () => (
         <MenuDrawerFooter>
           <Button variant="flat" className={classes.leaveRoomButton} fullWidth onClick={leaveRoom}>
             <DeleteIcon color="action" className={classes.leaveRoomIcon} />
