@@ -7,7 +7,7 @@ import firebase from 'firebase';
 import { UserAuthTypes, UserAuthActions } from './userAuth.redux';
 import { selectLoggedUser } from '../users/users.selectors';
 import { selectUser } from './userAuth.selectors';
-import { UsersActions } from '../users/users.redux';
+import { OFFLINE_STATUS, ONLINE_STATUS, UsersActions } from '../users/users.redux';
 import { selectLocationState } from '../router/router.selectors';
 
 
@@ -37,7 +37,7 @@ function* checkIfUserAccountExists({ user }) {
     const loggedUser = yield select(selectLoggedUser);
 
     if (loggedUser.size > 1) {
-      return;
+      yield put(UsersActions.changeUserStatus(loggedUser.get('uid'), ONLINE_STATUS));
     }
 
     yield put(UsersActions.createUser(user));
@@ -48,6 +48,10 @@ function* checkIfUserAccountExists({ user }) {
 
 function* signOutFromFirebase() {
   try {
+    const loggedUser = yield select(selectLoggedUser);
+
+    yield put(UsersActions.changeUserStatus(loggedUser.get('uid'), OFFLINE_STATUS));
+    yield put(UserAuthActions.clearUserData());
     yield firebase.auth().signOut();
     yield put(UserAuthActions.signInAnonymously());
   } catch (error) {

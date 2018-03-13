@@ -15,6 +15,17 @@ const registrySaga = createSaga({
   registrySelector: selectUsers,
 });
 
+export function* changeUserStatus({ uid, status }) {
+  try {
+    const usersRef = dbRef.child('users');
+
+    yield usersRef.child(uid).child('status').set(status);
+  } catch (error) {
+    /* istanbul ignore next */
+    reportError(error);
+  }
+}
+
 export function* createUser({ user: { uid, ...user } }) {
   try {
     const usersRef = dbRef.child('users');
@@ -40,6 +51,7 @@ export default function* watchUsers() {
     yield all([
       fork(registrySaga),
       takeLatest(UsersTypes.LISTEN_FOR_USERS, startListeningForState),
+      takeLatest(UsersTypes.CHANGE_USER_STATUS, changeUserStatus),
       takeLatest(UsersTypes.CREATE_USER, createUser),
     ]);
   } catch (error) {

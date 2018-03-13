@@ -15,7 +15,7 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import WhatsHotIcon from 'material-ui-icons/Whatshot';
 
 import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, Content } from './room.styles';
-import { MessageList, MessageBox, RoomList, CreateRoomDialog, UserMenu } from '../../components/';
+import { MessageList, MessageBox, RoomList, UsersList, CreateRoomDialog, UserMenu } from '../../components/';
 import messages from './room.messages';
 
 
@@ -108,6 +108,8 @@ export class Room extends PureComponent {
               </MenuDrawerHeader>
               <Divider />
               <RoomList rooms={rooms} activeRoom={activeRoom} onOpenCreateRoomDialog={openCreateRoomDialog} />
+              <Divider />
+              <UsersList users={users} />
             </MenuDrawerInner>
           </Drawer>
           <Content>
