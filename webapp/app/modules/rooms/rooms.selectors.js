@@ -2,12 +2,25 @@ import { createSelector } from 'reselect';
 import { fromJS, Map } from 'immutable';
 import { complement, isNil } from 'ramda';
 
+import { selectUserUid } from '../userAuth/userAuth.selectors';
+
 
 export const selectRooms = (state) => state.get('rooms', Map());
 
 export const selectRoomsList = createSelector(
-  selectRooms,
-  (state) => state.get('roomsList', Map()),
+  selectRooms, selectUserUid,
+  (rooms, userUid) => rooms.get('roomsList', Map())
+    .map((room) => room.set('isActive', room.getIn(['value', 'users', userUid], false))),
+);
+
+export const selectActiveRoomsList = createSelector(
+  selectRoomsList,
+  (rooms) => rooms.filter((room) => room.get('isActive')),
+);
+
+export const selectInactiveRoomsList = createSelector(
+  selectRoomsList,
+  (rooms) => rooms.filter((room) => !room.get('isActive')),
 );
 
 export const selectActiveRoomId = createSelector(
@@ -29,7 +42,7 @@ export const selectActiveRoom = createSelector(
   selectActiveRoomId, selectRoomsList,
   (activeRoomId, rooms) => fromJS({
     id: activeRoomId,
-    name: rooms.getIn([activeRoomId, 'value', 'name']),
+    ...rooms.getIn([activeRoomId, 'value'], Map()).toJS(),
   })
 );
 

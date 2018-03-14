@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { theme, DRAWER_WIDTH } from '../../theme/global';
+import { theme, DRAWER_WIDTH, FOOTER_HEIGHT } from '../../theme/global';
 
 
 export default theme => ({
@@ -46,6 +46,17 @@ export default theme => ({
   drawerHeader: {
     ...theme.mixins.toolbar,
   },
+  leaveRoomButton: {
+    justifyContent: 'flex-start',
+    textTransform: 'none',
+  },
+  leaveRoomLabel: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
+  },
+  leaveRoomIcon: {
+    marginRight: theme.spacing.unit * 2,
+  },
   flex: {
     flex: 1,
   },
@@ -67,13 +78,30 @@ export const Container = styled.div`
 
 export const MenuDrawerInner = styled.div`
   width: ${DRAWER_WIDTH}px;
+  display:flex;
+  flex-direction: column;
+  height: 100%;
 `;
 
 export const MenuDrawerHeader = styled.div`
+  
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding: 0 ${theme.spacing.unit}px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+`;
+
+export const MenuDrawerContent = styled.div`
+  flex: 1;
+  overflow-y: auto;
+`;
+
+export const MenuDrawerFooter = styled.div`
+  height: ${FOOTER_HEIGHT}px;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
 `;
 
 export const Content = styled.main`

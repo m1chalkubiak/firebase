@@ -9,23 +9,27 @@ import { Room } from './room.component';
 import styles from './room.styles';
 import { RoomsActions } from '../../modules/rooms/rooms.redux';
 import {
-  selectActiveRoom, selectMessages, selectRoomsList, selectMessagesLoaded, selectCreateRoomDialogOpened,
+  selectActiveRoom, selectMessages, selectActiveRoomsList, selectInactiveRoomsList,
+  selectMessagesLoaded, selectCreateRoomDialogOpened,
 } from '../../modules/rooms/rooms.selectors';
-import { selectLoggedUser, selectUsers } from '../../modules/users/users.selectors';
+import { selectLoggedUser, selectUsers, selectUsersInActiveRoom } from '../../modules/users/users.selectors';
 import { UserAuthActions } from '../../modules/userAuth/userAuth.redux';
 
 const mapStateToProps = createStructuredSelector({
   activeRoom: selectActiveRoom,
   roomMessages: selectMessages,
-  rooms: selectRoomsList,
+  activeRooms: selectActiveRoomsList,
+  inactiveRooms: selectInactiveRoomsList,
   messagesLoaded: selectMessagesLoaded,
   createRoomDialogOpened: selectCreateRoomDialogOpened,
   loggedUser: selectLoggedUser,
   users: selectUsers,
+  usersInRoom: selectUsersInActiveRoom,
 });
 
 export const mapDispatchToProps = (dispatch) => bindActionCreators({
   setActiveRoomId: RoomsActions.setActiveRoomId,
+  leaveRoom: RoomsActions.removeUserFromRoom,
   createMessage: RoomsActions.createMessage,
   closeCreateRoomDialog: RoomsActions.closeCreateRoomDialog,
   openCreateRoomDialog: RoomsActions.openCreateRoomDialog,

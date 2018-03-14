@@ -3,19 +3,25 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Map } from 'immutable';
 import classNames from 'classnames';
+import { ifElse, always, complement, equals } from 'ramda';
 import { FormattedMessage } from 'react-intl';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import WhatsHotIcon from 'material-ui-icons/Whatshot';
+import DeleteIcon from 'material-ui-icons/Delete';
 
-import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, Content } from './room.styles';
+import {
+  Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, MenuDrawerContent, MenuDrawerFooter, Content,
+} from './room.styles';
 import { MessageList, MessageBox, RoomList, UsersList, CreateRoomDialog, UserMenu } from '../../components/';
+import { DEFAULT_ROOM } from '../../modules/rooms/rooms.redux';
 import messages from './room.messages';
 
 
@@ -23,7 +29,8 @@ export class Room extends PureComponent {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     roomMessages: PropTypes.instanceOf(Map),
-    rooms: PropTypes.instanceOf(Map),
+    activeRooms: PropTypes.instanceOf(Map),
+    inactiveRooms: PropTypes.instanceOf(Map),
     createMessage: PropTypes.func.isRequired,
     setActiveRoomId: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
@@ -34,8 +41,10 @@ export class Room extends PureComponent {
     openCreateRoomDialog: PropTypes.func.isRequired,
     createRoom: PropTypes.func.isRequired,
     signOut: PropTypes.func.isRequired,
+    leaveRoom: PropTypes.func.isRequired,
     loggedUser: PropTypes.instanceOf(Map),
     users: PropTypes.instanceOf(Map),
+    usersInRoom: PropTypes.instanceOf(Map),
   };
 
   state = {
@@ -58,11 +67,32 @@ export class Room extends PureComponent {
     this.setState({ open: false });
   };
 
+  renderDrawerFooter() {
+    const { activeRoom, classes, leaveRoom } = this.props;
+
+    return ifElse(
+      complement(equals(DEFAULT_ROOM)),
+      () => (
+        <MenuDrawerFooter>
+          <Button variant="flat" className={classes.leaveRoomButton} fullWidth onClick={leaveRoom}>
+            <DeleteIcon color="action" className={classes.leaveRoomIcon} />
+            <Typography className={classes.leaveRoomLabel} variant="subheading" color="inherit" noWrap>
+              <FormattedMessage {...messages.leaveRoom} />
+            </Typography>
+          </Button>
+        </MenuDrawerFooter>
+      ),
+      always(null),
+    )(activeRoom.get('id'));
+  }
+
   render() {
     const {
-      classes, roomMessages, createMessage, rooms, activeRoom, messagesLoaded, createRoomDialogOpened,
-      closeCreateRoomDialog, openCreateRoomDialog, createRoom, signOut, loggedUser, users,
+      classes, roomMessages, createMessage, activeRooms, inactiveRooms, activeRoom, messagesLoaded,
+      createRoomDialogOpened, closeCreateRoomDialog, openCreateRoomDialog, createRoom, signOut, loggedUser,
+      users, usersInRoom,
     } = this.props;
+
     const appBarClasses = classNames(classes.appBar, {
       [classes.appBarShift]: this.state.open,
     });
@@ -106,10 +136,19 @@ export class Room extends PureComponent {
                   <ChevronLeftIcon />
                 </IconButton>
               </MenuDrawerHeader>
-              <Divider />
-              <RoomList rooms={rooms} activeRoom={activeRoom} onOpenCreateRoomDialog={openCreateRoomDialog} />
-              <Divider />
-              <UsersList users={users} />
+              <MenuDrawerContent>
+                <RoomList
+                  activeRooms={activeRooms}
+                  inactiveRooms={inactiveRooms}
+                  activeRoom={activeRoom}
+                  onOpenCreateRoomDialog={openCreateRoomDialog}
+                />
+                <Divider />
+                <UsersList users={usersInRoom} />
+              </MenuDrawerContent>
+
+              { this.renderDrawerFooter() }
+
             </MenuDrawerInner>
           </Drawer>
           <Content>

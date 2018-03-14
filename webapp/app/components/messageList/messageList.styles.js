@@ -1,16 +1,21 @@
 import styled, { css } from 'styled-components';
 import { Card, CircularProgress } from 'material-ui';
+import { FOOTER_HEIGHT } from '../../theme/global';
+
 
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   width: 100%;
-  height: calc(100% - 70px);
+  height: calc(100% - ${FOOTER_HEIGHT}px);
 `;
 
 export const Content = styled(Card)`
-  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 `;
 
 export const Loader = styled(CircularProgress)`
@@ -29,6 +34,15 @@ const defaultMessagesWrapper = css`
   align-items: center;
   width: 100%;
   height: 70px;
+`;
+
+export const MessagesWrapper = styled.ul`
+  width: 100%;
+  max-height: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
 `;
 
 export const NoMessages = styled.div`

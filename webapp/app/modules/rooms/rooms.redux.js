@@ -11,6 +11,8 @@ export const {
   Creators: RoomsActions,
 } = createActions({
   setActiveRoomId: ['id'],
+  addUserToRoom: null,
+  removeUserFromRoom: null,
   createMessage: ['author', 'content'],
   createRoom: ['name'],
   openCreateRoomDialog: null,
