@@ -6,3 +6,4 @@ export { UsersList } from './usersList/usersList.component';
 export { UserAvatar } from './userAvatar/userAvatar.component';
 export { CreateRoomDialog } from './createRoomDialog/createRoomDialog.component';
 export { UserMenu } from './userMenu/userMenu.component';
+export { DropzoneBackdrop } from './dropzoneBackdrop/dropzoneBackdrop.component';

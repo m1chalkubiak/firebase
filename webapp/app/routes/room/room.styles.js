@@ -1,4 +1,7 @@
 import styled from 'styled-components';
+import ReactDropzone from 'react-dropzone';
+import { ifElse, always, prop } from 'ramda';
+
 import { theme, DRAWER_WIDTH, FOOTER_HEIGHT } from '../../theme/global';
 
 
@@ -84,7 +87,7 @@ export const MenuDrawerInner = styled.div`
 `;
 
 export const MenuDrawerHeader = styled.div`
-  
+
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -104,7 +107,8 @@ export const MenuDrawerFooter = styled.div`
   align-items: center;
 `;
 
-export const Content = styled.main`
+export const Dropzone = styled(ReactDropzone)`
+  position: relative;
   width: 100%;
   flex-grow: 1;
   background-color: ${theme.palette.background.default};

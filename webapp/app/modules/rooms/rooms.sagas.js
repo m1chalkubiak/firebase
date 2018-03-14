@@ -5,7 +5,7 @@ import { push } from 'react-router-redux';
 import { reset } from 'redux-form';
 import { pipe, defaultTo, converge, merge, identity, applySpec, always } from 'ramda';
 
-import { dbRef } from '../utils/refs';
+import { dbRef, storageRef } from '../utils/refs';
 import { createSaga } from '../utils/entityRegistry';
 import { RoomsTypes, RoomsActions, CREATE_ROOM_FORM, MESSAGE_FORM, DEFAULT_ROOM } from './rooms.redux';
 import { selectActiveRoomId, selectRooms } from './rooms.selectors';
@@ -29,6 +29,10 @@ function* getActiveRoomRef() {
   }
 }
 
+function getImagesRef() {
+  return storageRef.child('images');
+}
+
 export function* createMessage({ author, content }) {
   try {
     const activeRoomRef = yield getActiveRoomRef();
@@ -45,6 +49,29 @@ export function* createMessage({ author, content }) {
       })])
     ));
     yield put(reset(MESSAGE_FORM));
+  } catch (error) {
+    /* istanbul ignore next */
+    reportError(error);
+  }
+}
+
+export function* createImageMessage({ author, file }) {
+  try {
+    const activeRoomRef = yield getActiveRoomRef();
+    const imagesRef = getImagesRef();
+    const { key } = activeRoomRef.push();
+    const { downloadURL } = yield imagesRef.child(key).put(file);
+
+    yield activeRoomRef.transaction(pipe(
+      defaultTo({}),
+      converge(merge, [identity, applySpec({
+        [key]: {
+          author: always(author),
+          image: always(downloadURL),
+          publicationTime: always(firebase.database.ServerValue.TIMESTAMP),
+        },
+      })])
+    ));
   } catch (error) {
     /* istanbul ignore next */
     reportError(error);
@@ -122,6 +149,7 @@ export default function* watchRooms() {
     yield takeLatest(RoomsTypes.ADD_USER_TO_ROOM, addUserToRoom);
     yield takeLatest(RoomsTypes.REMOVE_USER_FROM_ROOM, removeUserFromRoom);
     yield takeLatest(RoomsTypes.CREATE_MESSAGE, createMessage);
+    yield takeLatest(RoomsTypes.CREATE_IMAGE_MESSAGE, createImageMessage);
     yield takeLatest(RoomsTypes.CREATE_ROOM, createRoom);
   } catch (error) {
     /* istanbul ignore next */

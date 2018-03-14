@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { Map } from 'immutable';
 import classNames from 'classnames';
-import { ifElse, always, complement, equals } from 'ramda';
+import { ifElse, always, complement, equals, multiply } from 'ramda';
 import { FormattedMessage } from 'react-intl';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
@@ -17,13 +17,15 @@ import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import WhatsHotIcon from 'material-ui-icons/Whatshot';
 import DeleteIcon from 'material-ui-icons/Delete';
 
-import {
-  Wrapper, Container, MenuDrawerInner, MenuDrawerHeader, MenuDrawerContent, MenuDrawerFooter, Content,
-} from './room.styles';
-import { MessageList, MessageBox, RoomList, UsersList, CreateRoomDialog, UserMenu } from '../../components/';
+import { Wrapper, Container, MenuDrawerInner, MenuDrawerHeader,
+  MenuDrawerContent, MenuDrawerFooter, Dropzone } from './room.styles';
+import { MessageList, MessageBox, RoomList, UsersList,
+  CreateRoomDialog, UserMenu, DropzoneBackdrop } from '../../components/';
 import { DEFAULT_ROOM } from '../../modules/rooms/rooms.redux';
 import messages from './room.messages';
 
+
+const megabytes = multiply(2 ** 20);
 
 export class Room extends PureComponent {
   static propTypes = {
@@ -32,6 +34,7 @@ export class Room extends PureComponent {
     activeRooms: PropTypes.instanceOf(Map),
     inactiveRooms: PropTypes.instanceOf(Map),
     createMessage: PropTypes.func.isRequired,
+    createImageMessage: PropTypes.func.isRequired,
     setActiveRoomId: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     activeRoom: PropTypes.object,
@@ -49,6 +52,7 @@ export class Room extends PureComponent {
 
   state = {
     open: true,
+    fileDragged: false,
   };
 
   componentWillMount = () => this.props.setActiveRoomId(this.props.match.params.id);
@@ -59,13 +63,18 @@ export class Room extends PureComponent {
     }
   }
 
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
+  handleDropAccepted = ([file]) => {
+    this.props.createImageMessage(this.props.loggedUser.get('uid', null), file);
+    this.setState({ fileDragged: false });
   };
 
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
+  handleDragEnter = () => this.setState({ fileDragged: true });
+
+  handleDragLeave = () => this.setState({ fileDragged: false });
+
+  handleDrawerOpen = () => this.setState({ open: true });
+
+  handleDrawerClose = () => this.setState({ open: false });
 
   renderDrawerFooter() {
     const { activeRoom, classes, leaveRoom } = this.props;
@@ -151,10 +160,19 @@ export class Room extends PureComponent {
 
             </MenuDrawerInner>
           </Drawer>
-          <Content>
+          <Dropzone
+            onDropAccepted={this.handleDropAccepted}
+            onDragEnter={this.handleDragEnter}
+            onDragLeave={this.handleDragLeave}
+            disableClick
+            multiple={false}
+            maxSize={megabytes(2)}
+            accept="image/jpeg, image/png, image/gif"
+          >
             <MessageList users={users} loaded={messagesLoaded} messages={roomMessages} />
             <MessageBox user={loggedUser} onCreateMessage={createMessage} />
-          </Content>
+            <DropzoneBackdrop open={this.state.fileDragged} />
+          </Dropzone>
         </Container>
         <CreateRoomDialog
           opened={createRoomDialogOpened}

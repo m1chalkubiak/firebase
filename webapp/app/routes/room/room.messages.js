@@ -9,4 +9,8 @@ export default defineMessages({
     id: 'room.leaveRoom',
     defaultMessage: 'Leave room',
   },
+  dropFile: {
+    id: 'room.dropFile',
+    defaultMessage: 'Drop file here',
+  },
 });
