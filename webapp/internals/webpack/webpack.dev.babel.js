@@ -31,6 +31,7 @@ const plugins = [
 module.exports = require('./webpack.base.babel')({
   // Add hot reloading in development
   entry: {
+    // 'firebase-messaging-sw': path.join(process.cwd(), 'firebase/firebase-messaging-sw.js'),
     main: [
       // Necessary for hot reloading with IE
       'eventsource-polyfill',
