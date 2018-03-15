@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { colors } from 'material-ui';
 
+
+export default () => ({
+  listItem: {
+    alignItems: 'flex-start',
+  },
+});
+
 export const Data = styled.span`
   color: ${colors.grey['500']};
   font-size: 0.8rem;

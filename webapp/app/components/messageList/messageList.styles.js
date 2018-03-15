@@ -16,6 +16,8 @@ export const Content = styled(Card)`
   height: 100%;
   display: flex;
   align-items: flex-end;
+  overflow-y: auto;
+  flex-direction: column-reverse;
 `;
 
 export const Loader = styled(CircularProgress)`
@@ -38,11 +40,9 @@ const defaultMessagesWrapper = css`
 
 export const MessagesWrapper = styled.ul`
   width: 100%;
-  max-height: 100%;
   list-style: none;
   padding: 0;
   margin: 0;
-  overflow-y: auto;
 `;
 
 export const NoMessages = styled.div`

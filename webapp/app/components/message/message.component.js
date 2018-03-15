@@ -4,14 +4,16 @@ import { Map } from 'immutable';
 import moment from 'moment';
 import { ListItem, ListItemText } from 'material-ui/List';
 import { ifElse } from 'ramda';
+import { withStyles } from 'material-ui/styles';
 
-import { Author, Data, MessageContent, MessageImage } from './message.styles';
+import styles, { Author, Data, MessageContent, MessageImage } from './message.styles';
 import { UserAvatar } from '../userAvatar/userAvatar.component';
 
 
-export class Message extends PureComponent {
+export class MessageComponent extends PureComponent {
   static propTypes = {
     user: PropTypes.instanceOf(Map),
+    classes: PropTypes.object.isRequired,
     message: PropTypes.instanceOf(Map),
   };
 
@@ -40,7 +42,7 @@ export class Message extends PureComponent {
   );
 
   render = () => (
-    <ListItem>
+    <ListItem className={this.props.classes.listItem}>
       <UserAvatar user={this.user} />
       <ListItemText
         primary={this.renderPrimary()}
@@ -49,3 +51,5 @@ export class Message extends PureComponent {
     </ListItem>
   );
 }
+
+export const Message = withStyles(styles)(MessageComponent);

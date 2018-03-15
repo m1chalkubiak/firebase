@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import Fade from 'material-ui/transitions/Fade';
 import Typography from 'material-ui/Typography';
 import AddToPhotosIcon from 'material-ui-icons/AddToPhotos';
+import { FormattedMessage } from 'react-intl';
 
 import { Backdrop } from './dropzoneBackdrop.styles';
+import messages from './dropzoneBackdrop.messages';
 
 
 export class DropzoneBackdrop extends PureComponent {
@@ -17,7 +19,7 @@ export class DropzoneBackdrop extends PureComponent {
       <Backdrop>
         <AddToPhotosIcon />&nbsp;
         <Typography variant="title" color="inherit">
-          Drop file here
+          <FormattedMessage {...messages.dropHere} />
         </Typography>
       </Backdrop>
     </Fade>

@@ -16,12 +16,6 @@ export class MessageList extends PureComponent {
     users: PropTypes.instanceOf(Map),
   };
 
-  componentDidUpdate({ messages: prevMessages }) {
-    if (prevMessages.size < this.props.messages.size) {
-      this.messagesWrapperRef.scrollTop = this.messagesWrapperRef.scrollHeight;
-    }
-  }
-
   renderMessages = () => (
     <MessagesWrapper innerRef={(ref) => (this.messagesWrapperRef = ref)}>
       {this.props.messages.sort().map((message) =>

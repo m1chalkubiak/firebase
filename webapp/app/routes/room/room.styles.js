@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import ReactDropzone from 'react-dropzone';
-import { ifElse, always, prop } from 'ramda';
 
 import { theme, DRAWER_WIDTH, FOOTER_HEIGHT } from '../../theme/global';
 
