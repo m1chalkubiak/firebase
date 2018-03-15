@@ -9,6 +9,7 @@ const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const WebpackAppversionPlugin = require('webpack-appversion-plugin');
 const SpritesmithPlugin = require('webpack-spritesmith');
 const fs = require('fs');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 /* eslint-enable import/no-extraneous-dependencies */
 /* eslint-enable import/no-extraneous-dependencies */
 
@@ -134,6 +135,7 @@ module.exports = (options) => {
         },
       }),
       new webpack.NamedModulesPlugin(),
+      new CopyWebpackPlugin([ { from: path.join(process.cwd(), 'static/') } ]),
     ]),
     resolve: {
       alias: alias,
