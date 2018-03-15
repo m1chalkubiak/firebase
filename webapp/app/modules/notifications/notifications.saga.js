@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import reportError from 'report-error';
 import { NotificationsTypes, NotificationsActions } from './notifications.actions';
 import { UserAuthTypes } from '../userAuth/userAuth.redux';
+import { selectUserUid } from '../userAuth/userAuth.selectors';
 
 function* closeChannelOnSignOut(channel) {
   try {
@@ -56,7 +57,7 @@ function* listenForFCMTokenRefresh() {
 
     while (true) {
       const fcmToken = yield take(channel);
-      console.log(fcmToken);
+      yield put(NotificationsActions.saveToken(fcmToken));
     }
   } catch (error) {
     reportError(error);
@@ -71,8 +72,9 @@ function* init() {
       const registration = yield navigator.serviceWorker.register('/firebase-messaging-sw.js');
       yield firebase.messaging().useServiceWorker(registration);
       yield firebase.messaging().requestPermission();
+
       const fcmToken = yield firebase.messaging().getToken();
-      console.log(fcmToken);
+      yield put(NotificationsActions.saveToken(fcmToken));
     } else {
       console.log('Service workers are not supported.');
     }
@@ -81,9 +83,20 @@ function* init() {
   }
 }
 
+function* saveToken({ token }) {
+  try {
+    const userId = yield select(selectUserUid);
+    if (userId) {
+      yield firebase.database().ref('fcmTokens').child(userId).set(token);
+    }
+  } catch (e) {
+    reportError(e);
+  }
+}
 
 export function* watchNotifications() {
   try {
+    yield takeLatest(NotificationsTypes.SAVE_TOKEN, saveToken);
     yield takeLatest(UserAuthTypes.SET_USER_DATA, init);
     yield takeLatest(UserAuthTypes.SET_USER_DATA, listenForFCMTokenRefresh);
     yield takeLatest(UserAuthTypes.SET_USER_DATA, listenForPushNotifications);

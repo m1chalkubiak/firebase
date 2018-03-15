@@ -1,6 +1,6 @@
 import { createActions } from 'reduxsauce';
 
 export const { Types: NotificationsTypes, Creators: NotificationsActions } = createActions({
-  initWebWorker: [],
+  saveToken: ['token'],
 }, { prefix: 'NOTIFICATIONS_' });
 
