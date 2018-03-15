@@ -31,6 +31,7 @@ export const mapDispatchToProps = (dispatch) => bindActionCreators({
   setActiveRoomId: RoomsActions.setActiveRoomId,
   leaveRoom: RoomsActions.removeUserFromRoom,
   createMessage: RoomsActions.createMessage,
+  createImageMessage: RoomsActions.createImageMessage,
   closeCreateRoomDialog: RoomsActions.closeCreateRoomDialog,
   openCreateRoomDialog: RoomsActions.openCreateRoomDialog,
   createRoom: RoomsActions.createRoom,

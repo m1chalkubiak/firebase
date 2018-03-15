@@ -14,6 +14,7 @@ export const {
   addUserToRoom: null,
   removeUserFromRoom: null,
   createMessage: ['author', 'content'],
+  createImageMessage: ['author', 'file'],
   createRoom: ['name'],
   openCreateRoomDialog: null,
   closeCreateRoomDialog: null,
